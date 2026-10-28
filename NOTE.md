@@ -11,15 +11,15 @@ The distinction matters when a model has to infer movement from a single camera.
 
 ## A constraint removes possibilities without identifying the truth
 
-Consider a two-segment chain with root position \(r\), segment lengths \(l_1,l_2\), and unit directions \(d_1,d_2\). Its middle and distal points are
+Consider a two-segment chain with root position $r$, segment lengths $l_1,l_2$, and unit directions $d_1,d_2$. Its middle and distal points are
 
 $$
 p_1=r+l_1d_1,\qquad p_2=r+l_1d_1+l_2d_2.
 $$
 
-These equations guarantee the selected lengths. They do not guarantee that those lengths describe the person, or that either direction is correct. The bend angle is \(\arccos(d_1^\top d_2)\). An interval imposed on that angle constrains this geometric model; it does not define an anatomical joint coordinate system or reveal segment twist.
+These equations guarantee the selected lengths. They do not guarantee that those lengths describe the person, or that either direction is correct. The bend angle is $\arccos(d_1^\top d_2)$. An interval imposed on that angle constrains this geometric model; it does not define an anatomical joint coordinate system or reveal segment twist.
 
-The sensitivity to a proximal rotation is equally specific. For a revolute coordinate \(q_k\), axis \(a_k\) and axis origin \(o_k\), the derivative of a downstream point is
+The sensitivity to a proximal rotation is equally specific. For a revolute coordinate $q_k$, axis $a_k$ and axis origin $o_k$, the derivative of a downstream point is
 
 $$
 \frac{\partial p_2}{\partial q_k}=a_k\times(p_2-o_k).
@@ -29,9 +29,9 @@ The perpendicular distance to the axis controls the first-order displacement cau
 
 ## A pixel leaves a direction unmeasured
 
-Perspective projection maps \((X,Y,Z)\) to \((f_xX/Z+c_x,f_yY/Z+c_y)\). Points along the same camera ray have the same image coordinates. A length constraint can reduce that ambiguity without eliminating it.
+Perspective projection maps $(X,Y,Z)$ to $(f_xX/Z+c_x,f_yY/Z+c_y)$. Points along the same camera ray have the same image coordinates. A length constraint can reduce that ambiguity without eliminating it.
 
-Take a known root at \((0,0,3)\) metres and a segment of length \(0.5\) metres. A distal point on the ray \((0.1z,0,z)\) must satisfy
+Take a known root at $(0,0,3)$ metres and a segment of length $0.5$ metres. A distal point on the ray $(0.1z,0,z)$ must satisfy
 
 $$
 1.01z^2-6z+8.75=0.
@@ -51,7 +51,7 @@ $$
 +\mathcal L_{\mathrm{bound}}.
 $$
 
-Here \(p_j^0\) is the initial prediction, \(u_j\) an observed pixel location, \(K\) the known camera calibration, and \(w_j\) a heuristic observation weight. The scales are declared engineering settings, not fitted uncertainty estimates. Setting a weight to zero removes an observation. It does not simulate an image occlusion seen by the original network.
+Here $p_j^0$ is the initial prediction, $u_j$ an observed pixel location, $K$ the known camera calibration, and $w_j$ a heuristic observation weight. The scales are declared engineering settings, not fitted uncertainty estimates. Setting a weight to zero removes an observation. It does not simulate an image occlusion seen by the original network.
 
 The first experiment samples three-dimensional chains with random orientations, translations, lengths and bends, using 512 cases for each of three seeds. The initial predictions contain correlated angular perturbations and coordinate noise; image observations contain noise. The solver shares the generator's geometry, so this is a controlled mechanism check, not evidence of transfer to human video.
 

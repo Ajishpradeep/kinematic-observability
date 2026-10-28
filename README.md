@@ -10,7 +10,7 @@ This is a sensitivity study, not a new trained pose estimator, an OpenSim implem
 
 - [Protocol and implementation amendments](PROTOCOL.md)
 - [Generated result tables](results/RESULTS.md)
-- [Research note](NOTE.md)
+- [Published research note](https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/) · [Markdown source](NOTE.md)
 - [Numerical checks](test_geometry.py)
 - [Synthetic aggregates](results/synthetic/aggregates.csv)
 - [OptiTrack aggregates](results/optitrack/aggregates.csv)
