@@ -1,0 +1,70 @@
+{
+  "kind": "local_real",
+  "steps": 200,
+  "batch": 4096,
+  "synthetic_n": 1024,
+  "seeds": null,
+  "python": "3.12.10",
+  "numpy": "2.5.2",
+  "torch": "2.6.0+cu124",
+  "device": "cpu",
+  "dtype": "float64",
+  "threads": 4,
+  "source_sha256": {
+    "PROTOCOL.md": "9968704bd28e66ce04c06d3f2e9a707f3c653a3c5776019e8fd80ea9a3f075e6",
+    "geometry.py": "9959fac7d860aaf40522d053446fe62a24d0e55cd55c6f35ba2eedc812c51c0b",
+    "prepare_local.py": "a4fcedc8e8cfb36a7883a8531f5d44fac01f8a8265d5830239bbaafaaac4528b",
+    "run.py": "3970982d7a59e37c357a9f4f8bfcd9f9b713cb390f6f165b65dcde823f3e0aae",
+    "test_geometry.py": "27ab2cbb3ced03871387bddcd7fe752ae8b03b10c1db179540329d3bed8b9cdc"
+  },
+  "input_sha256": "d71789f6ebd396eb285333413102a59ef8b1934b7a9094b27c90310e30dbbdd3",
+  "row_count": 1323,
+  "conditions": [
+    [
+      "oracle",
+      "uniform",
+      150
+    ],
+    [
+      "oracle",
+      "weighted",
+      150
+    ],
+    [
+      "generic",
+      "weighted",
+      150
+    ],
+    [
+      "oracle",
+      "proximal_missing",
+      150
+    ],
+    [
+      "generic",
+      "proximal_missing",
+      150
+    ],
+    [
+      "oracle",
+      "distal_wrong",
+      150
+    ],
+    [
+      "oracle_minus10",
+      "weighted",
+      150
+    ],
+    [
+      "oracle_plus10",
+      "weighted",
+      150
+    ],
+    [
+      "oracle",
+      "weighted",
+      90
+    ]
+  ],
+  "unix_time": 1793195558.1875668
+}

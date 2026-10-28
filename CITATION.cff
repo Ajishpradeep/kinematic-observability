@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "Please cite this independent technical study if you use the code or results."
+title: "Kinematic observability under imperfect constraints"
+type: software
+authors:
+  - family-names: Pradeep
+    given-names: Ajish
+repository-code: "https://github.com/Ajishpradeep/kinematic-observability"
+license: MIT
+version: 0.1.0
+date-released: 2026-10-28

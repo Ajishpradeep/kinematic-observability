@@ -1,0 +1,10 @@
+{
+  "steps": 400,
+  "input_sha256": "d71789f6ebd396eb285333413102a59ef8b1934b7a9094b27c90310e30dbbdd3",
+  "purpose": "post-pilot diagnostic; reference-derived pixels, oracle lengths and reference pelvis translation",
+  "source_sha256": {
+    "oracle_control.py": "c17b38bfdf6267191151da78f7f9acdddd7c93e5db5c15027de55bff5ee02d6c",
+    "run.py": "3970982d7a59e37c357a9f4f8bfcd9f9b713cb390f6f165b65dcde823f3e0aae",
+    "geometry.py": "9959fac7d860aaf40522d053446fe62a24d0e55cd55c6f35ba2eedc812c51c0b"
+  }
+}
