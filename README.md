@@ -9,6 +9,7 @@ This is a sensitivity study, not a new trained pose estimator, an OpenSim implem
 ## Read the evidence
 
 - [Protocol and implementation amendments](PROTOCOL.md)
+- [Research lineage, source-specific connections and next experiments](RELATED_WORK.md)
 - [Generated result tables](results/RESULTS.md)
 - [Published research note](https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/) · [Markdown source](NOTE.md)
 - [Numerical checks](test_geometry.py)
@@ -53,17 +54,19 @@ The real-data analysis gives every method the same known calibration and referen
 
 ## Relation to prior work
 
-Lin et al. predict OpenSim joint coordinates and segment scales from two-view images and supervise positions through forward kinematics. Their architecture, training and biomechanical model are different from this minimal diagnostic. Our experiment concerns the reliability of constraints when measurements or model parameters are wrong; it does not establish a deficiency or an improvement in their published system.
+This study explicitly engages with the research of **Eline van der Kruk, Ajay Seth and Xucong Zhang**, and the wider literature connecting visual estimation, anatomical correspondence and model uncertainty. The strongest precedent is Uchida and Seth's *Conclusion or Illusion* (2022), not a claim that constraints failing to identify truth is a new discovery. D3KE already estimates monocular biomechanical coordinates; Lin et al. use direct two-view image features, not the detector-keypoint refinement tested here. OpenCap Monocular already provides a substantially richer refinement-and-OpenSim pipeline.
 
-Li et al. study calibration-free relative IMU orientation and sensor location estimation. Their investigation of which motions support estimation motivates attention to observability, but their sensor setting and results do not transfer directly to monocular vision.
+The contribution here is a reproducible, bounded diagnostic and a documented reversal between synthetic and real-data rankings. [RELATED_WORK.md](RELATED_WORK.md) explains the relevant personalization, visual inference and uncertainty studies, their upstream methods, and the resulting experimental priorities. It separates actual methodological dependencies from our proposed connections. No cited system was reproduced or outperformed.
 
-BODIES' personalization programmes motivate testing sensitivity to anatomy rather than treating a generic body model as ground truth. This project has no affiliation with or endorsement from the cited researchers or TU Delft.
+This project has no affiliation with or endorsement from the cited researchers or TU Delft. Zhang's current affiliation is Turku / ELLIS Institute Finland; the joint papers retain their historical Delft affiliations.
 
 - Lin et al. (2024), [3D Kinematics Estimation from Video with a Biomechanical Model and Synthetic Training Data](https://arxiv.org/abs/2402.13172).
+- Uchida and Seth (2022), [Conclusion or Illusion](https://doi.org/10.3389/fbioe.2022.874725).
 - Bittner et al. (2023), [Towards Single Camera Human 3D-Kinematics](https://arxiv.org/abs/2301.05435).
 - Li et al. (2026), [Calibration-free IMU-based Relative Orientation Estimation under Dynamic Human Motion](https://arxiv.org/abs/2610.31156).
 - Gozlan et al. (2025), [OpenCapBench](https://openaccess.thecvf.com/content/WACV2025/papers/Gozlan_OpenCapBench_A_Benchmark_to_Bridge_Pose_Estimation_and_Biomechanics_WACV_2025_paper.pdf).
 - [BODIES research programmes](https://bodieslab.com/projects/).
+- Full source map, including BODIESReg, What the PCSA?, MuPPet, validation methodology and OpenCap Monocular: [research lineage](RELATED_WORK.md).
 
 ## Next validation
 

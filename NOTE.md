@@ -7,7 +7,9 @@ Fixed segment lengths and a small image residual do not establish 3D accuracy. I
 
 A reconstructed limb can keep exactly the right length, fit the image closely, and still put its endpoint in the wrong place. I wanted to separate those three properties before treating an anatomical constraint as evidence that a pose estimate had improved.
 
-The distinction matters when a model has to infer movement from a single camera. Lin et al. (2024) predict biomechanical coordinates and body segment scales from two-view images, with positional supervision through an OpenSim forward-kinematics model. Their work also identifies a problem that becomes important here: image landmarks and anatomical joint centres need not coincide. I built a much smaller diagnostic to investigate the interaction between geometry, observations and model mismatch. It is not a reproduction of their network or OpenSim model.
+The starting point is the work of Eline van der Kruk, Ajay Seth and Xucong Zhang with Lin and colleagues on video-based biomechanical estimation. Their [2024 paper](https://arxiv.org/abs/2402.13172) combines two-view image features, temporal information, OpenSim coordinates and synthetic anatomical supervision. It does not explicitly detect 2D joints. I built a much smaller, keypoint-based diagnostic to ask how observation quality and model mismatch affect constrained reconstruction—not to reproduce or improve their network.
+
+The broader question is not new. [Uchida and Seth (2022)](https://doi.org/10.3389/fbioe.2022.874725) already showed that small marker-fitting errors can conceal uncertainty from registration and model scaling. Here I examine a related distinction for monocular image residuals. My contribution is the controlled comparison and its mixed outcome, not the discovery that a plausible model can be wrong.
 
 ## A constraint removes possibilities without identifying the truth
 
@@ -25,7 +27,7 @@ $$
 \frac{\partial p_2}{\partial q_k}=a_k\times(p_2-o_k).
 $$
 
-The perpendicular distance to the axis controls the first-order displacement caused by an angle error. This explains why a small proximal error can move a distal point considerably. It does not establish that an FK estimator will fail more often than a coordinate predictor; that depends on the errors each estimator makes.
+The perpendicular distance to the axis controls the first-order displacement caused by an angle error. This explains why a small proximal error can move a distal point considerably. Bittner et al.'s [D3KE (2023)](https://arxiv.org/abs/2301.05435), co-authored by Zhang and Seth, already uses this relationship to motivate positional supervision in a monocular biomechanical estimator. It does not establish that an FK estimator will fail more often than a coordinate predictor; that depends on the errors each estimator makes.
 
 ## A pixel leaves a direction unmeasured
 
@@ -94,7 +96,19 @@ The public code reproduces the synthetic experiment and numerical checks. Record
 
 No network was retrained under image occlusion. The real-data observation-dropout conditions keep the original prediction fixed. The cohort was previously inspected, the sample contains only three evaluation people, and the 3D reference itself is model-dependent. The study also gives the solver a known camera and reference pelvis translation, so it does not solve monocular localization or calibration.
 
-The next useful test is actual image occlusion on an independently accessible video/reference dataset, with separate checks for landmark definitions, camera uncertainty and subject-specific segment frames. OpenCapBench (Gozlan et al., 2025) is relevant because it evaluates the connection between pose estimation and biomechanical outputs. BODIES' personalization programmes make the complementary question concrete: which aspects of a generic model should vary with the person rather than be enforced as universal constraints?
+## Where the research connection becomes useful
+
+For personalization, [BODIESReg (Chaurasia et al., 2026)](https://arxiv.org/abs/2607.15463), co-authored by van der Kruk, makes a crucial distinction: a fitted body surface does not directly measure internal joint centres. Her group's [What the PCSA? (Maarleveld et al., 2025)](https://doi.org/10.1016/j.jbiomech.2025.112976) also concerns muscle parameters beyond geometric scaling. My length perturbations therefore test one source of model mismatch, not demographic bias or musculoskeletal personalization as a whole.
+
+For estimation, Seth's work with [Li, Osman and Kok (2026)](https://arxiv.org/abs/2610.31156) separates the motion excitation useful for relative IMU orientation from that useful for sensor location. The visual analogue worth investigating is which movement or viewpoint makes a particular output informative. That is a proposed question, not an observability result established by this experiment.
+
+For visual inference, Zhang's [MuPPet with Markhorst and colleagues (2026)](https://arxiv.org/abs/2604.09715) exploits temporal and inter-person information for pose lifting. It illustrates a different intervention: add information rather than only restrict the answer. A second person's movement cannot be assumed available to a person alone at home, and my observation-dropout test does not evaluate that method.
+
+The wider literature changes the next experiment too. [OpenCapBench and SynthPose (Gozlan et al., 2025)](https://openaccess.thecvf.com/content/WACV2025/html/Gozlan_OpenCapBench_A_Benchmark_to_Bridge_Pose_Estimation_and_Biomechanics_WACV_2025_paper.html) make denser, anatomically motivated landmarks and downstream angle evaluation concrete options. [OpenCap Monocular (Gilon et al., 2026)](https://arxiv.org/abs/2603.24733) already combines monocular refinement, confidence-weighted reprojection and OpenSim. It uses additional information and a different model; this study is not evidence against its reported results.
+
+I would next compare observation definitions under actual image occlusion, rerun the estimators, and propagate camera and anatomical uncertainty to a prespecified movement measure. Van der Kruk and colleagues' [sit-to-walk study (2022)](https://www.nature.com/articles/s41514-022-00094-x) is a reason to ask whether refinement preserves meaningful compensation—not just whether movement becomes more typical. The code checks, reference comparisons and sensitivity tests should remain separate, following the distinction in [Hicks, Uchida, Seth and colleagues (2015)](https://doi.org/10.1115/1.4029304).
+
+The [research-lineage review](https://github.com/Ajishpradeep/kinematic-observability/blob/main/RELATED_WORK.md) traces these connections through OpenSim, SMPL-X, AMASS, biomechanical constraint learning, Pose2Sim, OpenCap and WHAM. It records what each source changes about this study and what remains untested. These connections motivate a research programme; they do not establish the cited groups' current needs or an affiliation with them.
 
 For now, I would report three quantities separately: the constraints a solution satisfies, the observations it agrees with, and its error against an independent reference. A small value for either of the first two is not a substitute for measuring the third.
 
@@ -103,6 +117,8 @@ For now, I would report three quantities separately: the constraints a solution 
 - 3D Kinematics Estimation from Video with a Biomechanical Model and Synthetic Training Data — Zhi-Yi Lin, Bofan Lyu, Judith Cueto Fernandez, Eline van der Kruk, Ajay Seth and Xucong Zhang, arXiv 2024 — https://arxiv.org/abs/2402.13172
 - OpenCapBench: A Benchmark to Bridge Pose Estimation and Biomechanics — Gozlan et al., WACV 2025 — https://openaccess.thecvf.com/content/WACV2025/papers/Gozlan_OpenCapBench_A_Benchmark_to_Bridge_Pose_Estimation_and_Biomechanics_WACV_2025_paper.pdf
 - BODIES research programmes — BODIES Lab, project descriptions 2026 — https://bodieslab.com/projects/
+
+Additional primary papers are linked beside the claims they support above; the repository's research-lineage review records authorship, publication status and relevant sections. The shared papers' Delft affiliations are historical: [Xucong Zhang reports moving to Turku and ELLIS Institute Finland in October 2026](https://www.ccmitss.com/zhang).
 
 ## Code and results
 
