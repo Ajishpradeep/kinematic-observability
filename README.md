@@ -4,12 +4,12 @@
 
 This project asks when fixed segment lengths and angle bounds help an articulated estimate, and when they conceal a wrong reconstruction. It combines an exact perspective-ambiguity counterexample, seeded synthetic experiments, and a retrospective audit of cached monocular predictions against an OptiTrack fitted-skeleton reference.
 
-This is a sensitivity study, not a new trained pose estimator, an OpenSim implementation, or evidence of clinical performance. The real-data arm concerns shoulder–elbow–wrist chains during sports motion. It does not validate neurological gait or smartphone home monitoring.
+This is a sensitivity study, not a trained pose estimator or evidence of clinical performance. The real-data arm concerns shoulder–elbow–wrist chains during sports motion.
 
 ## Read the evidence
 
 - [Protocol and implementation amendments](PROTOCOL.md)
-- [Research lineage, source-specific connections and next experiments](RELATED_WORK.md)
+- [Research lineage, input comparison and next experiments](RELATED_WORK.md)
 - [Generated result tables](results/RESULTS.md)
 - [Published research note](https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/) · [Markdown source](NOTE.md)
 - [Numerical checks](test_geometry.py)
@@ -27,7 +27,7 @@ python -m venv .venv
 .venv/bin/python run.py --out results/synthetic --synthetic-n 512
 ```
 
-The synthetic experiments and geometry checks are independently reproducible from this repository. The OptiTrack recordings, trajectories, original model weights and cached frame-level predictions are not distributed. Real-data aggregates are provided for scrutiny but cannot be independently regenerated without authorized access to those inputs. No claim of fully open real-data replication is made.
+The synthetic experiments and geometry checks are independently reproducible from this repository. The OptiTrack recordings, trajectories, original model weights and cached frame-level predictions are not distributed, so the real-data aggregates require authorized access to those inputs for independent regeneration.
 
 For authorized local reproduction:
 
@@ -65,4 +65,4 @@ The contribution here is narrower: a reproducible diagnostic and a reversal betw
 
 ## Next validation
 
-Real image occlusions with a rerun detector and lifter; public licensed video/reference data; camera and root estimation; independent marker-based segment frames; broader movements and participant morphology; patient-relevant endpoints; uncertainty and rejection policies. These are open tasks, not claims supported by the current tables.
+The next experiment will rerun the detector and lifter under controlled image occlusions on licensed video/reference data. It will then vary camera and anatomical correspondence errors against a prespecified movement endpoint.
