@@ -2,14 +2,14 @@
 # A valid reconstruction can still be the wrong one
 
 ```claim
-In 5,414 real upper-limb observations, fixed-length forward kinematics reduced the image residual to 1.36 px yet increased mean wrist error from 78.3 mm to 80.3 mm. Constraint satisfaction, image agreement and 3D accuracy are different measurements.
+In 5,414 real upper-limb observations, fixed-length forward kinematics reduced the image residual from 17.91 px to 1.36 px and enforced exact segment lengths, yet mean wrist error increased from 78.3 mm to 80.3 mm. Structure, image agreement and 3D accuracy must be measured separately.
 ```
 
-A reconstructed arm can keep its prescribed lengths and land on the observed pixels while still placing the wrist at the wrong depth. I tested that failure mode twice: first as a controlled synthetic mechanism check, then against 5,414 shoulder–elbow–wrist observations from high-speed sports motion with synchronized OptiTrack Motive references.
+A reconstructed arm can obey its prescribed lengths and land on the observed pixels while placing the wrist at the wrong depth. I tested that failure mode first in a matched synthetic mechanism check, then against synchronized monocular predictions and OptiTrack Motive references from high-speed upper-limb sports motion.
 
-The result is deliberately mixed. Fixed-length refinement helped the synthetic cases and one real participant, hurt another, and changed little for the third. The useful finding is not that constraints are good or bad. It is that anatomical validity and image agreement do not identify 3D accuracy on their own.
+The synthetic solver behaves exactly as hoped: fixed-length refinement cuts distal error by more than half. The real-data ranking then reverses, and a diagnostic control reveals why. Replacing detected keypoints with reference-projected pixels halves wrist error, while nearly 4 cm of depth error remains. The experiment therefore separates two problems that are easy to blur together: correspondence in the image and identifiability along the camera ray.
 
-## Three questions that should not share one score
+## A constraint removes possibilities without identifying the truth
 
 For a two-segment chain with root position $r$, segment lengths $l_1,l_2$, and unit directions $d_1,d_2$,
 
@@ -17,35 +17,37 @@ $$
 p_1=r+l_1d_1,\qquad p_2=r+l_1d_1+l_2d_2.
 $$
 
-Forward kinematics answers a structural question: does this configuration obey the selected model? A reprojection residual answers an observational question: does it agree with the image? A reference error answers an accuracy question: is it near an independently estimated 3D target?
+Forward kinematics guarantees the selected lengths. Reprojection measures agreement with the image. Reference error measures distance to an independently estimated 3D target. These quantities answer different questions, even when they move together.
 
-Those questions can correlate, but they are not interchangeable. Uchida and Seth (2022) demonstrated the analogous warning for marker-based inverse analyses: low marker-tracking error can coexist with uncertainty introduced by marker registration and model scaling. Hicks et al. (2015) separate code verification, experimental validation and sensitivity analysis for the same reason. In this study, exact geometric tests are verification; the shared-generator simulation is a mechanism check; and the OptiTrack comparison is a small, model-dependent validation exercise.
+The same distinction appears in marker-based inverse analysis. Uchida and Seth (2022) showed that small marker-fitting residuals can coexist with uncertainty introduced by marker registration and model scaling. Hicks et al. (2015) formalized the corresponding separation between software verification, experimental validation and sensitivity analysis. Here, exact geometric tests verify the implementation, the shared-generator simulation tests its mechanism, and the OptiTrack comparison measures its behaviour on real trajectories.
 
-## One pixel can admit two exact depths
-
-Under perspective projection, $(X,Y,Z)$ maps to $(f_xX/Z+c_x,f_yY/Z+c_y)$. Depth along a camera ray is therefore unobserved unless another measurement or prior constrains it (Hartley and Zisserman, 2004).
-
-Take a known root at $(0,0,3.0)$ m, a segment of length $0.5$ m, and a distal point on the ray $(0.1z,0,z)$. The length equation becomes
-
-$$
-1.01z^2-6z+8.75=0.
-$$
-
-Its two positive roots are $z_1=2.571$ m and $z_2=3.369$ m. Both give 0.0 mm length violation and 0.0 px image residual, yet the resulting 3D points are 798 mm apart. The repository test evaluates both roots numerically.
-
-A proximal angle error has a second, related consequence. For revolute coordinate $q_k$, axis $a_k$ and origin $o_k$,
+A proximal rotation also has a predictable distal effect. For revolute coordinate $q_k$, axis $a_k$ and origin $o_k$,
 
 $$
 \frac{\partial p_2}{\partial q_k}=a_k\times(p_2-o_k).
 $$
 
-The perpendicular distance from the axis to the downstream point sets the first-order displacement. Bittner et al. (2023) use this positional sensitivity in a monocular biomechanical estimator; it is the reason that their differentiable skeleton receives positional as well as coordinate supervision. The interactive lever-arm view below sweeps an illustrative proximal perturbation from $-12^\circ$ to $+12^\circ$. It shows sensitivity, not an empirical error distribution.
+The perpendicular distance from the axis to the downstream point sets the first-order displacement. Bittner et al. (2023) use this sensitivity to motivate positional supervision alongside coordinate regression in a monocular biomechanical estimator. The interactive view below makes the same geometry tangible: rotate at the shoulder and the longer moment arm carries the wrist farther than the elbow.
+
+## A pixel leaves depth unresolved
+
+Perspective projection maps $(X,Y,Z)$ to $(f_xX/Z+c_x,f_yY/Z+c_y)$. Every point on one camera ray shares the same pixel (Hartley and Zisserman, 2004). A known length narrows that ray, but may leave multiple valid intersections.
+
+Take a root at $(0,0,3.0)$ m, a segment of length $0.5$ m, and a distal point on the ray $(0.1z,0,z)$. The length equation is
+
+$$
+1.01z^2-6z+8.75=0.
+$$
+
+Its positive roots are $z_1=2.571$ m and $z_2=3.369$ m. Both produce 0.0 mm length violation and 0.0 px image residual, while the resulting 3D points lie 798 mm apart. A numerical test in the repository evaluates both roots directly.
+
+The lever-arm interaction sweeps a proximal perturbation from $-12^\circ$ to $+12^\circ$. The range is illustrative; the depth-root construction is exact.
 
 ```figure
 {
   "type": "kinematic-ambiguity",
   "title": "One pixel, two valid 3D reconstructions",
-  "caption": "The depth view is an exact counterexample. The lever-arm view isolates how proximal angular error moves a distal point.",
+  "caption": "The paired views connect the camera measurement to the two solutions that remain in depth; the lever-arm view shows how proximal angular error propagates downstream.",
   "rootDepth": "3.0 m",
   "segmentLength": "0.5 m",
   "raySlope": "0.1",
@@ -55,18 +57,11 @@ The perpendicular distance from the axis to the downstream point sets the first-
 }
 ```
 
-## What I compared
+## Matched synthetic assumptions reward the articulated model
 
-The diagnostic model has a free root, two angles for the first segment, a bending-plane angle and a bend angle. Every refinement starts from the same 3D prediction and receives the same observation weights and optimization budget.
+The diagnostic model has a free root, two angles for the first segment, a bending-plane angle and a bend angle. Every condition starts from the same 3D prediction and uses the same pixel observations and optimization budget.
 
-I compare four core conditions:
-
-1. **Initial prediction:** the cached 3D pose without refinement.
-2. **Root-outward length projection:** each segment is rescaled along its predicted direction.
-3. **Cartesian pixel refinement:** joint coordinates move directly under a 3D tether and reprojection objective.
-4. **Fixed-length FK with pixels:** joint coordinates are generated from the articulated parameters and fixed lengths.
-
-The refinement objective is
+The four core conditions are the initial prediction, root-outward length projection, Cartesian pixel refinement, and fixed-length forward kinematics with pixels. Soft and hard bend bounds provide additional sensitivity checks. Refinement minimizes
 
 $$
 \mathcal L=\sum_j\frac{\|p_j-p_j^0\|^2}{(0.08\,\mathrm m)^2}
@@ -74,34 +69,36 @@ $$
 +\mathcal L_{\mathrm{bound}}.
 $$
 
-Here $p_j^0$ is the initial prediction, $u_j$ an observed pixel, $K$ the known camera calibration, and $w_j$ a heuristic confidence weight. The 0.08 m and 5 px scales are engineering settings, not fitted uncertainties. Soft and hard bend caps are additional sensitivity conditions; the core comparison below uses the no-cap FK result unless stated otherwise.
+Here $p_j^0$ is the initial prediction, $u_j$ the observed pixel, $K$ the camera calibration, and $w_j$ a heuristic observation weight. The 0.08 m and 5 px scales define the engineering trade-off between staying near the initial pose and agreeing with the image.
 
-## The synthetic mechanism works
+The synthetic benchmark contains 1,536 chains: 512 samples for each of three seeds, spanning random orientations, translations, lengths and bends. Correlated angular and coordinate perturbations corrupt the initial 3D predictions, and Gaussian noise perturbs the pixels.
 
-The synthetic experiment samples random chain orientations, translations, lengths and bends. It contains 1,536 cases: 512 samples for each of three seeds. The initial predictions receive correlated angular perturbations and coordinate noise, while image observations receive pixel noise.
+With oracle lengths and weighted observations, mean distal error changes from 101.5 mm initially to 102.5 mm after length projection, 53.1 mm after Cartesian refinement, and 43.5 mm after fixed-length FK. A deliberately restrictive $90^\circ$ hard bend cap raises FK error to 68.8 mm. This stress condition places valid generated poses outside the permitted interval and exposes the cost of a misspecified hard boundary.
 
-With oracle lengths and weighted observations, mean distal error changes from 101.5 mm initially to 102.5 mm after length projection, 53.1 mm after Cartesian pixel refinement, and 43.5 mm after fixed-length FK refinement. A deliberately restrictive $90^\circ$ hard bend cap raises the FK result to 68.8 mm. That stress condition demonstrates sensitivity to a wrong bound; it is not a physiological claim.
+The generator and solver share the same chain geometry, so this experiment answers a focused question: can the implementation exploit correct structure under matched assumptions? The answer is yes.
 
-The important limitation is built into the experiment: the generator and solver share the same chain geometry. This establishes that the implementation can recover from its injected perturbations under matched assumptions. It does not establish transfer to real anatomy or images.
+## Real observations reverse the ranking
 
-## Real data reverses the ranking
+The real-data audit evaluates P01, P05 and P07, all held out from the 3D predictor's training. Together they contribute 5,414 shoulder–elbow–wrist chains across both arms and two camera views: 2,586 from P01, 1,480 from P05 and 1,348 from P07.
 
-The real-data audit uses synchronized monocular predictions and Motive fitted-skeleton references. Four people provide generic segment lengths; P01, P05 and P07 are held out from the 3D predictor's training and provide 5,414 evaluation chains across both arms and both cameras. The participant counts are 2,586 for P01, 1,480 for P05 and 1,348 for P07.
-
-The primary table uses participant-specific reference-derived lengths, known camera calibration, reference pelvis translation, confidence-weighted detected pixels and 200 optimization steps. These are privileged diagnostic inputs. Values are means of the three participant means, so a participant with more retained chains does not dominate the aggregate.
+The primary condition gives each solver participant-specific reference-derived lengths, calibrated cameras, reference pelvis translation and confidence-weighted detected pixels. These diagnostic inputs isolate the behaviour of the chain and reprojection objective from global localization. Results are macro means of the three participant means after 200 optimization steps.
 
 | Method | Wrist 3D error, mm | Wrist depth error, mm | Image residual, px | Length deviation, mm |
 |---|---:|---:|---:|---:|
 | Initial prediction | 78.3 | 49.6 | 17.91 | 18.83 |
 | Root-outward length projection | 83.2 | 47.1 | 19.10 | 0.00 |
-| Cartesian pixel refinement | 76.2 | 48.3 | 0.37 | 24.73 |
+| Cartesian refinement with pixels | 76.2 | 48.3 | 0.37 | 24.73 |
 | Fixed-length FK with pixels | 80.3 | 53.1 | 1.36 | 0.00 |
+| FK with a soft $150^\circ$ cap | 80.3 | 53.1 | 1.36 | 0.00 |
+| FK with a hard $150^\circ$ cap | 80.0 | 52.8 | 1.39 | 0.00 |
 
-The coordinate refinement obtains the smallest image residual and slightly improves wrist error, but violates the selected lengths. FK satisfies those lengths to numerical precision and reaches a 1.36 px residual, but its 80.3 mm wrist error is worse than the 78.3 mm starting point. The result is not a paradox: the optimized quantities are not independent 3D truth measurements.
+The length column makes the trade-off visible. Cartesian refinement achieves the lowest wrist and image errors in the macro mean, while increasing segment-length distortion to 24.73 mm. Fixed-length FK removes that distortion and reduces image residual to 1.36 px, but moves wrist error from 78.3 mm to 80.3 mm and depth error from 49.6 mm to 53.1 mm.
 
-## The mean hides three different outcomes
+The $150^\circ$ real-data cap is a permissive condition, unlike the deliberately restrictive $90^\circ$ synthetic stress test. Its soft and hard variants barely change the output, showing that this boundary contributes little under the recorded upper-limb condition. The important competition is between image correspondence, the proximity tether and depth ambiguity.
 
-The participant-level wrist results expose the instability of any universal conclusion.
+## Participant outcomes disagree with the aggregate
+
+The macro mean combines three qualitatively different outcomes.
 
 | Cohort | Initial, mm | Length projection, mm | Cartesian pixels, mm | Fixed-length FK, mm |
 |---|---:|---:|---:|---:|
@@ -114,50 +111,48 @@ The participant-level wrist results expose the instability of any universal conc
 ```figure
 {
   "type": "result-explorer",
-  "title": "The aggregate result is not the participant result",
-  "caption": "Switch cohorts to compare the same four methods. Bars encode wrist 3D error; lower is better.",
+  "title": "The same constraint produces different participant outcomes",
+  "caption": "Select a cohort for absolute errors. Each matrix cell shows change from that cohort's initial wrist 3D error; lower is better.",
   "methods": ["Initial", "Length projection", "Cartesian pixels", "Fixed-length FK"],
   "cohorts": [
-    {"label": "Synthetic", "sample": "1,536 chains", "note": "Matched generator and solver assumptions favour the articulated model.", "values": ["101.5 mm", "102.5 mm", "53.1 mm", "43.5 mm"]},
-    {"label": "Real mean", "sample": "5,414 chains; macro mean", "note": "The synthetic ranking does not survive the move to real observations and references.", "values": ["78.3 mm", "83.2 mm", "76.2 mm", "80.3 mm"]},
-    {"label": "P01", "sample": "2,586 chains", "note": "Both pixel-based refinements improve on the initial wrist estimate.", "values": ["78.3 mm", "77.7 mm", "65.2 mm", "71.7 mm"]},
+    {"label": "Synthetic", "sample": "1,536 chains", "note": "Matched generator and solver assumptions strongly favour the articulated model.", "values": ["101.5 mm", "102.5 mm", "53.1 mm", "43.5 mm"]},
+    {"label": "Real mean", "sample": "5,414 chains; macro mean", "note": "Real observations reverse the synthetic advantage of fixed-length FK.", "values": ["78.3 mm", "83.2 mm", "76.2 mm", "80.3 mm"]},
+    {"label": "P01", "sample": "2,586 chains", "note": "Both pixel-based refinements improve the initial wrist estimate.", "values": ["78.3 mm", "77.7 mm", "65.2 mm", "71.7 mm"]},
     {"label": "P05", "sample": "1,480 chains", "note": "Every structural correction shown here increases wrist error.", "values": ["77.8 mm", "87.8 mm", "83.7 mm", "92.5 mm"]},
-    {"label": "P07", "sample": "1,348 chains", "note": "Fixed-length FK helps slightly while Cartesian refinement does not.", "values": ["78.9 mm", "84.0 mm", "79.6 mm", "76.8 mm"]}
+    {"label": "P07", "sample": "1,348 chains", "note": "Fixed-length FK helps slightly; Cartesian refinement is nearly neutral.", "values": ["78.9 mm", "84.0 mm", "79.6 mm", "76.8 mm"]}
   ]
 }
 ```
 
-The participant switcher is not a significance analysis. Each row summarizes repeated chains from one person, and the three people are the independent evaluation units. It is a guard against letting one macro average imply consistent behaviour.
+P01 improves under both pixel-based refinements. P05 moves in the opposite direction, with FK increasing wrist error by 14.7 mm. P07 changes little, although FK produces a small improvement. The participant, rather than the repeated chain observation, is therefore the meaningful evaluation unit.
 
-## Better correspondences change the answer
+## Better correspondence halves the error; depth remains
 
-I added one post-pilot diagnostic control: replace detected pixels with projections of the reference skeleton itself. This uses information unavailable to a deployed estimator, but it separates the effect of the downstream optimizer from some of the upstream correspondence error.
+The post-pilot control replaces detected pixels with projections of the reference skeleton. At 400 steps, no-cap FK produces 80.4 mm mean wrist error with detected pixels and 39.3 mm with reference-projected pixels. Depth error falls from 53.2 mm to 38.5 mm.
 
-At 400 steps, no-cap FK produces 80.4 mm mean wrist error with detected pixels and 39.3 mm with reference-projected pixels. Depth error changes from 53.2 mm to 38.5 mm. Better correspondence therefore changes the result materially, although it still does not eliminate monocular depth error.
+This is the sharpest result in the audit. Roughly half the wrist error disappears when the downstream solver receives pixels defined by the reference skeleton, locating a major source of failure in observation and landmark correspondence. The remaining 38.5 mm depth error shows what exact 2D correspondence and fixed lengths still leave unresolved under the single-frame proximity objective.
 
-This control changes both detector localization and the definition of the observed landmark. It cannot attribute the gap to either one alone. Lin et al. (2024) avoid an explicit sparse-keypoint bottleneck by regressing biomechanical coordinates and scales from two-view image features with synthetic anatomical supervision. OpenCapBench and SynthPose (Gozlan et al., 2025) instead make denser, anatomically motivated landmarks available for downstream biomechanics. These are different strategies for adding information; neither result licenses treating a low reprojection residual as ground truth.
+The control changes detector localization and landmark definition together. Lin et al. (2024) address correspondence through direct image-feature inference, biomechanical coordinates and synthetic anatomical supervision. OpenCapBench and SynthPose (Gozlan et al., 2025) learn denser, anatomy-oriented landmarks for downstream biomechanics. These approaches add information at the observation boundary rather than asking a length constraint to repair an ambiguous measurement.
 
-OpenCap Monocular (Gilon et al., 2026) is an especially relevant comparator because it combines monocular initialization, confidence-weighted reprojection, additional motion and contact objectives, virtual markers and OpenSim inverse kinematics. This audit does not evaluate that complete system. It isolates a smaller question: when a fixed-length chain agrees with selected pixels, what has actually been established?
+Doubling the optimization budget from 200 to 400 steps shifts participant-level wrist error by less than 0.5 mm across the full-observation methods. Within this tested budget, additional iterations leave the depth residual essentially unchanged and point the next experiment toward observations, model correspondence and temporal information.
 
-## What the next experiment must identify
+## The next step is to add information, not only constraints
 
-The next experiment should vary information, not merely add a stronger penalty.
+Three consequences follow from the synthetic-to-real reversal.
 
-- Rerun the image estimator under controlled, visible occlusions instead of dropping observations after inference.
-- Compare detected joints, anatomy-aware virtual landmarks and reference projections under the same downstream estimator.
-- Perturb camera parameters, joint-centre definitions and segment geometry separately, then jointly.
-- Report anatomical coordinate error and a prespecified movement outcome alongside point error.
-- Predefine participant splits and treat participants, not frames, as the evaluation units.
+- **Personalization must include anatomical correspondence.** Surface shape, segment length and internal joint centres are related but distinct quantities. BODIESReg (Chaurasia et al., 2026) makes surface registration and anatomical landmark estimation explicit stages of personalization. A useful uncertainty model must propagate that mapping into the kinematic estimate instead of treating a fitted surface or length as exact anatomy.
+- **Observability depends on motion and viewpoint.** Li et al. (2026) show in calibration-free inertial estimation that different motion excitations identify relative orientation and sensor location. The visual counterpart is to measure which movement phases and camera viewpoints separate competing depth solutions, then use those intervals deliberately.
+- **Richer evidence can be more valuable than a tighter bound.** Dense anatomical landmarks in OpenCapBench, temporal and contact objectives in OpenCap Monocular (Gilon et al., 2026), and multi-frame image evidence all supply measurements that a single-frame length constraint lacks.
 
-A local Jacobian can reveal weakly observed directions, but it cannot by itself find disconnected alternatives such as the two exact depth roots above. Uncertainty analysis needs both local conditioning and tests for competing solutions.
+The downstream outcome matters as much as joint-point error. Van der Kruk et al. (2022) found distinct compensatory strategies in sit-to-walk movement. A clinical estimator should preserve such functional variation while improving accuracy, rather than scoring success by how closely motion follows a population template.
 
-## Scope and reproducibility
+The next experiment will therefore rerun the image estimator under visible occlusion, compare sparse detector joints with anatomy-aware landmark definitions, perturb camera and joint-centre geometry separately, and propagate each uncertainty source into a prespecified movement measure. Participant splits and evaluation outcomes will be fixed before comparison.
 
-The public repository contains the synthetic generator, optimization code, exact-root tests, aggregate real-data tables, protocol amendments and an adapter for authorized local replication. Raw recordings, participant trajectories and original model weights remain local.
+## Scope and release
 
-The real-data reference is Motive's fitted skeleton rather than direct bone motion. The study uses three evaluation participants, a previously inspected cohort, a known camera and reference pelvis translation. Observation-dropout conditions keep the original 3D prediction fixed. These boundaries limit the claim to a diagnostic audit of this pipeline and dataset.
+The public repository contains the synthetic generator, exact-root tests, optimization code, aggregate real-data tables, protocol amendments and an adapter for authorized local replication. Raw recordings, participant trajectories and original model weights remain local. Motive's fitted skeleton supplies the 3D reference, the real evaluation contains three participants, and the solver receives known cameras plus reference pelvis translation. Observation-dropout conditions alter the post-hoc objective while keeping the upstream prediction fixed. These choices define the audit as a diagnostic of this pipeline rather than an end-to-end monocular benchmark.
 
-The [code, full tables and protocol history](https://github.com/Ajishpradeep/kinematic-observability) are public. The main conclusion is simple to audit: report what a reconstruction satisfies, what it agrees with, and how far it is from an independent reference as three separate quantities.
+The [code, tables and protocol history](https://github.com/Ajishpradeep/kinematic-observability) make the central rule auditable: report the structure a reconstruction satisfies, the observations it agrees with, and its error against an independent reference as three separate measurements.
 
 ## References
 
@@ -168,3 +163,6 @@ The [code, full tables and protocol history](https://github.com/Ajishpradeep/kin
 - 3D Kinematics Estimation from Video with a Biomechanical Model and Synthetic Training Data — Zhi-Yi Lin, Bofan Lyu, Judith Cueto Fernandez, Eline van der Kruk, Ajay Seth and Xucong Zhang, arXiv 2024 — https://arxiv.org/abs/2402.13172
 - OpenCapBench: A Benchmark to Bridge Pose Estimation and Biomechanics — Yoni Gozlan, Antoine Falisse, Scott D. Uhlrich, Anthony Gatti, Michael J. Black, Jennifer L. Hicks, Scott L. Delp and Akshay S. Chaudhari, WACV 2025 — https://openaccess.thecvf.com/content/WACV2025/html/Gozlan_OpenCapBench_A_Benchmark_to_Bridge_Pose_Estimation_and_Biomechanics_WACV_2025_paper.html
 - OpenCap Monocular: Exploring monocular video for estimating 3D human movement dynamics — Selim Gilon, Emily Y. Miller and Scott D. Uhlrich, arXiv 2026 — https://arxiv.org/abs/2603.24733
+- BODIESReg: An Open-Source Pipeline for Registering 3D Body Scans Using Pose-Aligned Initialization — Vikash Chaurasia, Judit Cueto Fernandez, J. Micah Prendergast and Eline van der Kruk, arXiv 2026 — https://arxiv.org/abs/2607.15463
+- Calibration-free IMU-based Relative Orientation Estimation under Dynamic Human Motion — Ruiyuan Li, Hassan Osman, Ajay Seth and Manon Kok, arXiv 2026 — https://arxiv.org/abs/2610.31156
+- Why do older adults stand-up differently to young adults? Investigation of compensatory movement strategies in sit-to-walk — Eline van der Kruk, Paul Strutton, Louis J. Koizia, Michael Fertleman, Peter Reilly and Anthony M. J. Bull, npj Aging 2022 — https://doi.org/10.1038/s41514-022-00094-x
