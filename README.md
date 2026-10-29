@@ -54,19 +54,14 @@ The real-data analysis gives every method the same known calibration and referen
 
 ## Relation to prior work
 
-This study explicitly engages with the research of **Eline van der Kruk, Ajay Seth and Xucong Zhang**, and the wider literature connecting visual estimation, anatomical correspondence and model uncertainty. The strongest precedent is Uchida and Seth's *Conclusion or Illusion* (2022), not a claim that constraints failing to identify truth is a new discovery. D3KE already estimates monocular biomechanical coordinates; Lin et al. use direct two-view image features, not the detector-keypoint refinement tested here. OpenCap Monocular already provides a substantially richer refinement-and-OpenSim pipeline.
+Small fitting residuals are already known to coexist with uncertainty in biomechanical inverse problems. Direct biomechanical estimators such as D3KE and Lin et al.'s two-view model also use substantially richer image, temporal and anatomical information than the two-link refinement tested here. OpenCap Monocular adds a full refinement and OpenSim pipeline.
 
-The contribution here is a reproducible, bounded diagnostic and a documented reversal between synthetic and real-data rankings. [RELATED_WORK.md](RELATED_WORK.md) explains the relevant personalization, visual inference and uncertainty studies, their upstream methods, and the resulting experimental priorities. It separates actual methodological dependencies from our proposed connections. No cited system was reproduced or outperformed.
+The contribution here is narrower: a reproducible diagnostic and a reversal between the synthetic and real-data rankings. No cited system was reproduced or outperformed. [RELATED_WORK.md](RELATED_WORK.md) compares the methods by the information they receive and identifies the next controlled tests.
 
-This project has no affiliation with or endorsement from the cited researchers or TU Delft. Zhang's current affiliation is Turku / ELLIS Institute Finland; the joint papers retain their historical Delft affiliations.
-
-- Lin et al. (2024), [3D Kinematics Estimation from Video with a Biomechanical Model and Synthetic Training Data](https://arxiv.org/abs/2402.13172).
-- Uchida and Seth (2022), [Conclusion or Illusion](https://doi.org/10.3389/fbioe.2022.874725).
-- Bittner et al. (2023), [Towards Single Camera Human 3D-Kinematics](https://arxiv.org/abs/2301.05435).
-- Li et al. (2026), [Calibration-free IMU-based Relative Orientation Estimation under Dynamic Human Motion](https://arxiv.org/abs/2610.31156).
-- Gozlan et al. (2025), [OpenCapBench](https://openaccess.thecvf.com/content/WACV2025/papers/Gozlan_OpenCapBench_A_Benchmark_to_Bridge_Pose_Estimation_and_Biomechanics_WACV_2025_paper.pdf).
-- [BODIES research programmes](https://bodieslab.com/projects/).
-- Full source map, including BODIESReg, What the PCSA?, MuPPet, validation methodology and OpenCap Monocular: [research lineage](RELATED_WORK.md).
+- [Conclusion or Illusion](https://doi.org/10.3389/fbioe.2022.874725) — uncertainty behind small marker-fitting residuals.
+- [Towards Single Camera Human 3D-Kinematics](https://arxiv.org/abs/2301.05435) and [Lin et al. (2024)](https://arxiv.org/abs/2402.13172) — direct biomechanical estimation from images.
+- [OpenCapBench](https://openaccess.thecvf.com/content/WACV2025/papers/Gozlan_OpenCapBench_A_Benchmark_to_Bridge_Pose_Estimation_and_Biomechanics_WACV_2025_paper.pdf) — anatomy-oriented observations and downstream evaluation.
+- [OpenCap Monocular](https://arxiv.org/abs/2603.24733) — a richer monocular refinement pipeline.
 
 ## Next validation
 

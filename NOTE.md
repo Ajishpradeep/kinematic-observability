@@ -2,7 +2,7 @@
 # A valid reconstruction can still be the wrong one
 
 ```claim
-Fixed segment lengths and a small image residual do not establish 3D accuracy. In a three-participant audit, articulated refinement reduced the image residual while increasing mean wrist error; replacing detected pixels with reference projections changed the result substantially.
+Fixed segment lengths and a small image residual do not establish 3D accuracy. In a three-participant audit, articulated refinement reduced the image residual without improving mean wrist accuracy; replacing detected pixels with reference projections changed the result substantially.
 ```
 
 A reconstructed limb can keep the prescribed segment lengths, fit the image closely, and still place its endpoint at the wrong 3D position. Those properties need to be measured separately before anatomical consistency is treated as evidence that a pose estimate has improved.
@@ -84,7 +84,7 @@ Participant means reveal the instability behind the aggregate. Uncapped FK impro
 
 I added a post-pilot control that replaces detected keypoints with the 2D projections of the Motive reference skeleton. At 400 steps, this substitution reduces uncapped FK wrist error from 80.4 mm to 39.3 mm and depth error from 53.2 mm to 38.5 mm.
 
-The control changes detector localization and landmark definition together. It therefore locates a major failure source at the observation-correspondence boundary without assigning separate effects to pixel noise and anatomical landmark mismatch. The remaining 38.5 mm depth error is consistent with the camera-ray ambiguity established above.
+The control changes detector localization and landmark definition together. It shows how much improvement is available when that observation-correspondence boundary is replaced, but it cannot assign separate effects to pixel noise and anatomical landmark mismatch. The remaining 38.5 mm depth error does not remove the camera-ray ambiguity demonstrated above.
 
 Lin et al. (2024) address correspondence by learning biomechanical coordinates from image features with synthetic anatomical supervision. OpenCapBench and SynthPose (Gozlan et al., 2025) learn denser anatomy-oriented landmarks for downstream biomechanical analysis. OpenCap Monocular (Gilon et al., 2026) combines monocular initialization with confidence-weighted reprojection, temporal and contact objectives, virtual markers and OpenSim inverse kinematics. Each method adds information unavailable to the isolated single-frame chain used here.
 
@@ -96,32 +96,23 @@ The companion repository distributes the synthetic benchmark, numerical verifica
 
 The real-data reference is Motive's fitted skeleton, the evaluation contains three participants, and the solver receives calibrated cameras plus reference pelvis translation. Observation-dropout conditions alter the post-hoc refinement objective while holding the upstream prediction fixed. The release is therefore a diagnostic audit of the reconstruction objective rather than an end-to-end monocular benchmark.
 
-## Implications for personalized monocular capture
+## What the result changes
 
-Separating geometric consistency from observational identifiability changes the next experiment in three ways.
+The next experiment should change the information supplied to the estimator, not merely tighten its geometric bounds.
 
-- **Personalization must include anatomical correspondence.** BODIESReg (Chaurasia et al., 2026) treats surface registration and anatomical landmark estimation as explicit stages. Surface shape and segment length provide useful information, but internal joint-centre uncertainty must still propagate into the kinematic estimate. Maarleveld et al. (2025) make the same broader point for muscle parameters: physiological variation extends beyond uniform geometric scaling.
-- **Motion and viewpoint determine what becomes observable.** Li et al. (2026) show in calibration-free inertial estimation that relative orientation and sensor location depend on different motion excitations. The visual analogue is to identify which camera viewpoints and movement phases separate competing depth solutions instead of weighting every frame equally.
-- **Expanding the observation set can be more effective than restricting the solver.** MuPPet (Markhorst et al., 2026) pools temporal and inter-person evidence; OpenCapBench supplies dense synthetic landmarks; OpenCap Monocular adds temporal, contact and virtual-marker constraints. These approaches target missing information rather than relying on a tighter range-of-motion bound.
+First, landmark correspondence belongs inside the measurement problem. BODIESReg (Chaurasia et al., 2026) separates surface registration from anatomical landmark estimation, while OpenCapBench and SynthPose use denser anatomy-oriented landmarks. The useful comparison is therefore between detected joints, anatomy-oriented landmarks and reference projections under the same downstream model.
 
-The downstream movement measure also matters. Van der Kruk et al. (2022) found distinct compensatory strategies in sit-to-walk motion. A clinical estimator must preserve such functional variation while improving accuracy, rather than defining success as convergence toward a population-average trajectory.
+Second, viewpoint and motion determine which depth solutions can be distinguished. A controlled study should rerun the detector and lifter under real image occlusions, then vary camera and joint-centre geometry separately. Temporal, contact and virtual-marker information in OpenCap Monocular illustrate the kinds of additional evidence that a single-frame chain lacks.
 
-The next study will compare sparse detector joints, anatomy-aware landmarks and reference projections under controlled image occlusion; perturb camera and joint-centre geometry separately; and propagate each uncertainty source into a prespecified movement outcome. Participant splits and evaluation measures will be fixed before comparison.
-
-Following the framework of Hicks et al. (2015), numerical verification, reference-based validation and sensitivity analysis will remain separate parts of that evaluation.
+I will fix participant splits and evaluation measures before that comparison and propagate each perturbation into a prespecified movement outcome. Numerical verification, reference-based validation and sensitivity analysis will remain separate.
 
 The [public code and complete aggregate results](https://github.com/Ajishpradeep/kinematic-observability) include the numerical tests, sensitivity conditions and protocol history. The operational rule is simple: report the constraints a reconstruction satisfies, the observations it agrees with and its error against an independent reference as separate quantities.
 
 ## References
 
 - Conclusion or Illusion: Quantifying Uncertainty in Inverse Analyses From Marker-Based Motion Capture due to Errors in Marker Registration and Model Scaling — T. K. Uchida and Ajay Seth, Frontiers in Bioengineering and Biotechnology 2022 — https://doi.org/10.3389/fbioe.2022.874725
-- Is My Model Good Enough? Best Practices for Verification and Validation of Musculoskeletal Models and Simulations of Movement — Jennifer L. Hicks, Thomas K. Uchida, Ajay Seth, Apoorva Rajagopal and Scott L. Delp, Journal of Biomechanical Engineering 2015 — https://doi.org/10.1115/1.4029304
 - Towards Single Camera Human 3D-Kinematics — Marian Bittner, Wei-Tse Yang, Xucong Zhang, Ajay Seth, Jan van Gemert and Frans C. T. van der Helm, Sensors 2023 — https://doi.org/10.3390/s23010341
 - 3D Kinematics Estimation from Video with a Biomechanical Model and Synthetic Training Data — Zhi-Yi Lin, Bofan Lyu, Judith Cueto Fernandez, Eline van der Kruk, Ajay Seth and Xucong Zhang, arXiv 2024 — https://arxiv.org/abs/2402.13172
 - BODIESReg: An Open-Source Pipeline for Registering 3D Body Scans Using Pose-Aligned Initialization — Vikash Chaurasia, Judit Cueto Fernandez, J. Micah Prendergast and Eline van der Kruk, arXiv 2026 — https://arxiv.org/abs/2607.15463
-- What the PCSA? A systematic review exploring the age- and sex-related differences in muscle parameter values — Vera C. Maarleveld, DirkJan H. E. J. Veeger, Frans C. T. van der Helm, Jaebum Son, Richard L. Lieber and Eline van der Kruk, Journal of Biomechanics 2025 — https://doi.org/10.1016/j.jbiomech.2025.112976
-- Calibration-free IMU-based Relative Orientation Estimation under Dynamic Human Motion — Ruiyuan Li, Hassan Osman, Ajay Seth and Manon Kok, arXiv 2026 — https://arxiv.org/abs/2610.31156
-- MuPPet: Multi-person 2D-to-3D Pose Lifting — Niels Markhorst, Zhi-Yi Lin, Ryan Chew, Jan van Gemert and Xucong Zhang, arXiv 2026 — https://arxiv.org/abs/2604.09715
 - OpenCapBench: A Benchmark to Bridge Pose Estimation and Biomechanics — Yoni Gozlan, Antoine Falisse, Scott D. Uhlrich, Anthony Gatti, Michael J. Black, Jennifer L. Hicks, Scott L. Delp and Akshay S. Chaudhari, WACV 2025 — https://openaccess.thecvf.com/content/WACV2025/html/Gozlan_OpenCapBench_A_Benchmark_to_Bridge_Pose_Estimation_and_Biomechanics_WACV_2025_paper.html
 - OpenCap Monocular: Exploring monocular video for estimating 3D human movement dynamics — Selim Gilon, Emily Y. Miller and Scott D. Uhlrich, arXiv 2026 — https://arxiv.org/abs/2603.24733
-- Why do older adults stand-up differently to young adults? Investigation of compensatory movement strategies in sit-to-walk — Eline van der Kruk, Paul Strutton, Louis J. Koizia, Michael Fertleman, Peter Reilly and Anthony M. J. Bull, npj Aging 2022 — https://doi.org/10.1038/s41514-022-00094-x
