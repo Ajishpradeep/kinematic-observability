@@ -1,0 +1,5 @@
+* text=auto eol=lf
+
+# Recorded evidence is byte-preserved for SHA-256 verification.
+results/** -text whitespace=cr-at-eol
+reports/figures/** -text -whitespace

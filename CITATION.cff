@@ -1,11 +1,19 @@
 cff-version: 1.2.0
-message: "Please cite this independent technical study if you use the code or results."
+message: "Please cite the companion article for the study and the software version used for reproducibility."
 title: "Kinematic observability under imperfect constraints"
 type: software
 authors:
   - family-names: Pradeep
     given-names: Ajish
 repository-code: "https://github.com/Ajishpradeep/kinematic-observability"
+url: "https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/"
 license: MIT
-version: 0.1.0
-date-released: 2026-10-28
+version: 0.2.0
+preferred-citation:
+  type: article
+  title: "A valid reconstruction can still be the wrong one"
+  authors:
+    - family-names: Pradeep
+      given-names: Ajish
+  date-published: 2026-10-28
+  url: "https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/"

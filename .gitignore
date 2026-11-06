@@ -1,7 +1,40 @@
+# Local working material
+/docs/
+/AGENTS.md
+/local/
+/private/
+/.agents/
+/.codex/
+/.aws/
+
+# Python and tooling
 __pycache__/
+*.py[cod]
 .venv/
-local/
-*.npz
-*.pt
+*.egg-info/
+/build/
+/dist/
+.pytest_cache/
+.ruff_cache/
+
+# Data and model artifacts
+/data/
+/datasets/
+/models/
+/weights/
+/checkpoints/
+*.tak
+*.c3d
+*.mcal
+*.csv.bak
 *.avi
 *.mp4
+*.mov
+*.npz
+*.pt
+*.pth
+*.ckpt
+identity-map.*
+participant-map.*
+.env
+.env.*

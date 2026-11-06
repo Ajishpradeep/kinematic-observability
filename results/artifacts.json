@@ -1,0 +1,16 @@
+{
+  "reports/figures/optitrack.png": "bd8e9929869494b026b0e4043d8d59c21351d5fbfdfc65c752078b926e36d488",
+  "reports/figures/optitrack.svg": "1a31a3a55a3872960bf1341b727f5636cd18a97fc258a7bfd7bb2a09f9dfd08c",
+  "reports/figures/synthetic.png": "1a3a3ec9bee6c9effacdfac001d5b5b9441364c498d0daea83da1af08b106c1f",
+  "reports/figures/synthetic.svg": "b8c41497669418ffe715006d05fb2c9fca765ff892b94c281a9bd17a398eca9c",
+  "results/optitrack/aggregates.csv": "042276cb7d72a5a69dffef7763cc585354fdee410833093bf9c49413fd854306",
+  "results/optitrack/manifest.json": "44844c45f19b5924f69175309780f9895aa9649e5a75add0b575c60a33ed2d41",
+  "results/optitrack_400/aggregates.csv": "fbce85f4dd5ff8a563ca54997ad195e5d5d5a742d53f4098e3ee39ac2181af5c",
+  "results/optitrack_400/manifest.json": "0aa05a13313f7a54fdc1e809f75affbecf169779f28daa7ad6ebacd8b85ecea6",
+  "results/oracle_pixels/aggregates.csv": "36c152bb980df7143beb29bf98a69a84b69d9050a45c945542e8c80cdb4bab77",
+  "results/oracle_pixels/manifest.json": "1e28532e0e25358462b929a645b318a8d7c90bf7a5fe52222fffb3b4b96f6fe6",
+  "results/synthetic/aggregates.csv": "c0d9c4807cf15d9c3b1b61955a0278a727c1250f04f6c50bd8d8d2e4e8e63350",
+  "results/synthetic/manifest.json": "2b9fc282a28893090657c0971ca503fc3d9c51609b740ac352c48800406ba5c3",
+  "results/baseline-source.zip": "8b2c317c6ad3ddf7b557bd2ec384be46507aa261ad66e9c4e4d441cc5b5a0080",
+  "results/tables.md": "5cc737354c7b69679656cae53dc774522f0a3c04813f213d9ba77526c0245d8c"
+}

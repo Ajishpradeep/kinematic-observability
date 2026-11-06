@@ -1,0 +1,12 @@
+include README.md CITATION.cff LICENSE pyproject.toml
+recursive-include src *.py
+recursive-include tests *.py
+recursive-include reports *.md *.bib *.png *.svg
+recursive-include results *.md *.csv *.json *.zip
+recursive-include .github *.py *.yml
+prune docs
+prune local
+prune private
+prune .git
+exclude AGENTS.md
+global-exclude __pycache__ *.py[cod]
