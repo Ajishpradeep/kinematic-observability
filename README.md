@@ -18,13 +18,13 @@ The real-data reference is a Motive fitted skeleton; calibration, reference pelv
 and reference-derived lengths are privileged inputs. This is an exploratory refinement audit,
 with no clinical validation or end-to-end pose-estimator comparison.
 
-The full study and observations are written up in the research note
+I explain the full study and observations in my research note,
 **[A valid reconstruction can still be the wrong one](https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/)**
-by Ajish Pradeep (28 October 2026). It develops the mathematical argument, explains the
-experiments and discusses what the results do and do not establish. This repository
-provides the implementation and aggregate evidence accompanying that note. The
-[research report](reports/README.md) records the methods, results, limitations and
-reproduction details together; [CITATION.cff](CITATION.cff) supplies the article and software citation.
+(published 28 October 2026). I develop the mathematical argument, describe the experiments
+and discuss what the results do and do not establish. This repository provides the
+implementation and aggregate evidence accompanying the note. The
+[research report](reports/README.md) brings together methods, results, limitations and
+reproduction details; [CITATION.cff](CITATION.cff) supplies the article and software citation.
 
 ## Ongoing research
 
