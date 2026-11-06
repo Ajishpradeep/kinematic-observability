@@ -5,6 +5,8 @@ import importlib
 import sys
 
 COMMANDS = {
+    "audit": ("assets", "Inspect configured external assets without modifying them"),
+    "infer": ("models", "Run public pretrained models on local images"),
     "run": ("experiment", "Run synthetic or authorized local-data experiments"),
     "report": ("reporting", "Generate tables and figures from aggregates"),
     "verify": ("verification", "Check recorded evidence and numerical guarantees"),
