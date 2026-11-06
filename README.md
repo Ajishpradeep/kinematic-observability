@@ -18,13 +18,13 @@ The real-data reference is a Motive fitted skeleton; calibration, reference pelv
 and reference-derived lengths are privileged inputs. This is an exploratory refinement audit,
 with no clinical validation or end-to-end pose-estimator comparison.
 
-The full study and observations are written up in the research note
+I explain the full study and observations in my research note,
 **[A valid reconstruction can still be the wrong one](https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/)**
-by Ajish Pradeep (28 October 2026). It develops the mathematical argument, explains the
-experiments and discusses what the results do and do not establish. This repository
-provides the implementation and aggregate evidence accompanying that note. The
-[research report](reports/README.md) records the methods, results, limitations and
-reproduction details together; [CITATION.cff](CITATION.cff) supplies the article and software citation.
+(published 28 October 2026). I develop the mathematical argument, describe the experiments
+and discuss what the results do and do not establish. This repository provides the
+implementation and aggregate evidence accompanying the note. The
+[research report](reports/README.md) brings together methods, results, limitations and
+reproduction details; [CITATION.cff](CITATION.cff) supplies the article and software citation.
 
 ## Ongoing research
 
@@ -33,6 +33,11 @@ branch. The present `main` documents the completed two-link diagnostic. The next
 is investigating which additional measurements resolve ambiguity and how to recognize
 estimates that remain weakly determined.
 
+The expansion includes inference adapters for **stock YOLO26 pose** (2D observations)
+and **Fast SAM 3D Body** (image-based 3D estimation). They provide observations for the
+research questions below; no new model-accuracy results are claimed. Their inputs,
+outputs and current validation status are documented [with the code](src/observability/README.md).
+
 The directions under consideration are:
 
 - Separate detector localization error from anatomical landmark correspondence using
@@ -40,7 +45,7 @@ The directions under consideration are:
 - Measure sensitivity to camera calibration, root position and body geometry, then test
   what a second view or temporal evidence adds under matched inputs.
 - Evaluate observability and uncertainty diagnostics against participant-level 3D failures,
-  with confirmation on new participants or a redistributable dataset.
+  with confirmation on new OptiTrack participants.
 
 These are research directions, not additional experimental findings. Research-branch
 updates, implementations and evaluated results will be published as the work progresses.
@@ -66,7 +71,7 @@ local-data inputs and the recorded source archive. Each command supports `--help
 
 | Location | Contents |
 |---|---|
-| [src/observability/](src/observability/) | Model and metrics in `geometry.py`, experiment execution in `experiment.py`, tables and plots in `reporting.py`; `data.py` handles local inputs and `verification.py` checks evidence |
+| [src/observability/](src/observability/README.md) | Implementation, model adapters and command reference |
 | [tests/](tests/) | Geometry invariants and command/workflow checks |
 | [reports/](reports/) | One research report and its figures |
 | [results/](results/) | Aggregate CSVs, execution manifests, complete generated tables and historical source archive |

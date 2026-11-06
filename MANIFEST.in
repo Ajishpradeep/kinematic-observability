@@ -1,5 +1,5 @@
 include README.md CITATION.cff LICENSE pyproject.toml
-recursive-include src *.py
+recursive-include src *.py *.md
 recursive-include tests *.py
 recursive-include reports *.md *.bib *.png *.svg
 recursive-include results *.md *.csv *.json *.zip
