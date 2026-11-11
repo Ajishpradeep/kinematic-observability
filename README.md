@@ -1,81 +1,140 @@
 # Kinematic observability
 
-**Can a reconstructed limb satisfy its geometric constraints and still be wrong in 3D?**
-This independent study uses a shoulder–elbow–wrist model to test how segment lengths,
-image observations and bend bounds affect monocular reconstruction.
+**When does a 3D reconstruction of human movement measure what it appears to measure?**
+This repository holds two linked studies of that question, with the code that produced every
+number, the aggregate results and the reports. The first asks whether satisfying geometric
+constraints makes a reconstructed limb more accurate. The second asks whether a more
+accurate position also gives a more accurate measure of movement, and how much the answer
+depends on what "the wrist" is taken to be.
 
-Fixed-length refinement helped under matched synthetic geometry. In a retrospective audit
-of three evaluation participants, it reduced image residual from **17.91 to 1.36 px** while
-mean wrist error increased from **78.3 to 80.3 mm**. Geometric consistency and image fit
-therefore need to be evaluated separately from reconstruction accuracy.
+| Study | Report | Research note | Code |
+|---|---|---|---|
+| Two-link reconstruction: constraints, image fit and 3D accuracy | [reports/README.md](reports/README.md) | [A valid reconstruction can still be the wrong one](https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/) | [src/observability/](src/observability/README.md) |
+| Wrist study: position, short displacement and the definition of the target | [reports/few-camera-wrist/](reports/few-camera-wrist/README.md) ([PDF](reports/few-camera-wrist/what-two-cameras-preserve-about-wrist-motion.pdf)) | [From position error to motion error](https://ajishpradeep.com/blog/from-position-error-to-motion-error/) | [pilot/](src/observability/pilot/README.md), [study/](src/observability/study/README.md) |
+
+## Study 1: a valid reconstruction can still be the wrong one
+
+A shoulder–elbow–wrist chain seen by one camera can keep its segment lengths exactly, fit
+its image closely and still place the wrist in the wrong 3D position: a single pixel fixes a
+ray, and a fixed length can leave two depths on that ray. On matched synthetic geometry,
+fixed-length refinement helped. On recorded data it reduced the image residual from
+**17.91 to 1.36 px** while mean wrist error rose from **78.3 to 80.3 mm**.
 
 | Wrist error, mm | Initial prediction | Cartesian refinement | Fixed-length refinement |
 |---|---:|---:|---:|
 | Synthetic: 1,536 chains, mean across three seeds | 101.5 | 53.1 | 43.5 |
 | Real: 5,414 chains, mean across three participants | 78.3 | 76.2 | 80.3 |
 
-The real-data reference is a fitted skeleton from optical motion capture; calibration, reference pelvis translation
-and reference-derived lengths are privileged inputs. This is an exploratory refinement audit,
-with no clinical validation or end-to-end pose-estimator comparison.
+Replacing detected keypoints with projections of the reference skeleton lowered wrist error
+from 80.4 to 39.3 mm, which moved attention from the constraint to the observation. The real
+reference is a fitted skeleton from optical motion capture, and calibration, reference pelvis
+translation and reference-derived lengths are privileged inputs. This is an exploratory
+refinement audit, with no clinical validation or end-to-end comparison of pose estimators.
 
-I explain the full study and observations in my research note,
-**[A valid reconstruction can still be the wrong one](https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/)**
-(published 28 October 2026). I develop the mathematical argument, describe the experiments
-and discuss what the results do and do not establish. This repository provides the
-implementation and aggregate evidence accompanying the note. The
-[research report](reports/README.md) brings together methods, results, limitations and
-reproduction details; [CITATION.cff](CITATION.cff) supplies the article and software citation.
+## Study 2: from position error to motion error
 
-## Follow-on study
+The follow-on uses two calibrated RGB cameras and an optical marker reference (eight
+infrared cameras, up to 57 markers) on 330 laboratory recordings of fast whole-body
+movement. A pilot on separate recordings chose the wrist as the endpoint, because only the
+paired styloid markers gave a direct, continuously visible reference. The design, split and
+decision rules were frozen before any outcome was scored: three capture groups for
+development and four, 181 recordings, held out for confirmation.
 
-[What two cameras preserve about wrist motion](reports/few-camera-wrist/README.md)
-([PDF](reports/few-camera-wrist/what-two-cameras-preserve-about-wrist-motion.pdf)) asks what
-happens when the outcome is movement rather than position. Across 181 held-out laboratory
-recordings, a second calibrated camera reduced median wrist position error from 324–388 mm
-to 73.2 mm, while median error in 25–50 ms displacement stayed near 30 mm. The median true
-displacement was only 13.9 mm, so a rule that always reported no movement scored better on
-that statistic than any camera. Stratified by real movement, two views clearly helped, and
-acceptance rules that looked adequate overall failed on about a third of wrists that moved
-at least 50 mm. Changing the definition of the wrist changed which estimates failed.
+| Held-out groups, against the styloid midpoint | Position median, mm | Displacement median (25–50 ms), mm |
+|---|---:|---:|
+| One camera, fixed-depth control A | 324.1 | 29.0 |
+| One camera, fixed-depth control B | 388.2 | 33.5 |
+| Two calibrated cameras | 73.2 | 29.6 |
+| Report no movement at all | – | 13.9 |
 
-The one-view comparisons are fixed-depth geometry controls. The report covers the pilot,
-methods, limitations and a proposed next experiment. Recordings are confidential; the
-[aggregate tables](reports/few-camera-wrist/tables/) behind every figure are included,
-together with the [code and commands](src/observability/README.md#decision-pilot-and-wrist-study)
-that produce them from comparable recordings.
+- **Position improved, the displacement median did not.** A position error shared by both
+  frames of a pair cancels in a displacement: with two views, 92.7% of squared position
+  error was common to both endpoints. What remains is frame-to-frame detector jitter.
+- **The sample decides the statistic.** Median true displacement was 13.9 mm, so reporting
+  no movement scored better than any camera. Split by real movement, two views were clearly
+  better once the wrist moved at least 50 mm: 52.5 mm against about 71 mm for one view.
+  This breakdown was added after the planned analysis and is descriptive.
+- **Ranking is easier than deciding.** Ray gap and detector confidence ranked errors, but no
+  fixed acceptance rule met its 20% failure target in every held-out group, and about a third
+  of accepted displacements failed when the wrist moved at least 50 mm.
+- **The target matters.** Holding estimates and decisions fixed, switching from the marker
+  midpoint to the fitted hand origin or a single marker moved the same accepted set from
+  19.8% to between 21.1% and 27.5% failure.
+
+The one-view conditions are geometric controls, not a trained monocular estimator, and the
+cameras are one fixed pair in one laboratory. The report covers the pilot, methods,
+limitations and a proposed next experiment.
 
 ## Reproduce
 
-Use Python 3.8 or newer; CI uses Python 3.12. From a checkout:
+Install from a checkout (Python 3.8 or newer; CI uses Python 3.12):
 
 ```sh
 python3 -m venv .venv
 . .venv/bin/activate
-python -m pip install -e .
-python -m observability run --out local/synthetic --synthetic-n 512 --steps 200
+python -m pip install -e '.[dev]'
+python -m unittest discover -s tests -v
 python -m observability verify
 ```
 
-Synthetic inputs are generated by the code. Real-data recordings and predictor weights
-are not distributed; their published aggregate results can be inspected and verified.
-The [report's reproduction section](reports/README.md#reproducibility) covers table generation,
-local-data inputs and the recorded source archive. Each command supports `--help`.
+**Study 1.** The synthetic experiment and the tables regenerate from code alone:
 
-## Code and evidence
+```sh
+python -m observability run --out local/synthetic --synthetic-n 512 --steps 200
+python -m observability report --results results --out local/report
+```
 
-| Location | Contents |
-|---|---|
-| [src/observability/](src/observability/README.md) | Implementation, model adapters and command reference |
-| [tests/](tests/) | Geometry invariants and command/workflow checks |
-| [reports/](reports/) | Baseline and follow-on research reports, figures and tables |
-| [results/](results/) | Aggregate CSVs, execution manifests, complete generated tables and historical source archive |
+The recorded-data runs need the original private inputs; their format is in the
+[report's reproducibility section](reports/README.md#reproducibility).
 
-For development, install `python -m pip install -e '.[dev]'`, then run
-`python -m unittest discover -s tests -v`, `ruff check src tests .github`, and
-`black --check src tests .github`. Add a numerical invariant with any geometry or metric
-change. New runs belong under ignored `local/` until reviewed; recorded evidence is immutable.
+**Study 2.** With comparable recordings (motion-capture exports with a fitted skeleton and
+labelled markers, the session calibration, and two synchronised RGB videos per take), install
+the inference extra and run the pilot, then the study:
+
+```sh
+python -m pip install -e '.[inference,dev]'
+# pilot: library stages, see src/observability/pilot/README.md
+python -m observability.study.design
+python -m observability.study.observe --shards 8 --shard 0   # repeat for shards 0-7
+python -m observability.study.analyze
+python -m observability.study.supplements.proxy
+python -m observability.study.report
+python -m observability.study.supplements.movement
+python -m observability.study.publication --font-dir /path/to/fonts
+```
+
+Every stage writes under ignored `local/`, and the frozen design and policy make a stage
+stop if its inputs or sources change. The [pilot guide](src/observability/pilot/README.md)
+and the [study guide](src/observability/study/README.md) say what each stage reads, writes
+and guarantees.
+
+## Repository map
+
+| Location | Contents | Guide |
+|---|---|---|
+| `src/observability/` | Two-link geometry, experiments, reporting, verification and model adapters | [README](src/observability/README.md) |
+| `src/observability/pilot/` | Decision pilot: inventory, pairing, alignment, reference and force audits, evidence gates | [README](src/observability/pilot/README.md) |
+| `src/observability/study/` | Wrist study: frozen design, observation, analysis, report and figures | [README](src/observability/study/README.md) |
+| `src/observability/study/supplements/` | Planned proxy-rule check and post hoc movement analysis | [README](src/observability/study/supplements/README.md) |
+| `reports/` | Two-link report; wrist-study report and PDF | [two-link](reports/README.md), [wrist study](reports/few-camera-wrist/README.md) |
+| `reports/few-camera-wrist/tables/` | 13 aggregate tables behind the wrist study | [Table catalog](reports/few-camera-wrist/tables/README.md) |
+| `reports/figures/` | Every published figure | [Figure catalog](reports/figures/README.md) |
+| `results/` | Two-link aggregates, run manifests, generated tables and the historical source archive | [Results catalog](results/README.md) |
+| `tests/` | Geometry, metric, privacy and workflow checks on synthetic inputs | [README](tests/README.md) |
+
 Repository checks and their optional local hooks are managed by
-`python .github/check_repository.py --install-hooks`.
+`python .github/check_repository.py --install-hooks`. Add a numerical invariant with any
+geometry or metric change; new runs belong under `local/` until reviewed, and recorded
+evidence is immutable.
 
-MIT licensed. Contributions must use distributable code and data; exclude participant
+## Data
+
+The recordings were collected in an industrial research laboratory for experiments and
+publication. They show identifiable people, so recordings, per-frame trajectories and
+the first study's predictor weights stay confidential; only aggregate results are
+released, with capture groups labelled generically. The wrist study uses only the stock
+public YOLO26n-pose checkpoint.
+
+MIT licensed. [CITATION.cff](CITATION.cff) gives the citation for the first study and its
+software. Contributions must use distributable code and data and exclude participant
 recordings, trajectories, weights, identifying information and credentials.

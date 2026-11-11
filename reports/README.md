@@ -1,5 +1,12 @@
 # Geometric consistency and reconstruction accuracy
 
+> This folder holds two reports. This page is the **two-link study**. The follow-on,
+> [What two cameras preserve about wrist motion](few-camera-wrist/README.md), has its own
+> report, [PDF](few-camera-wrist/what-two-cameras-preserve-about-wrist-motion.pdf) and
+> [table catalog](few-camera-wrist/tables/README.md). All figures are listed in the
+> [figure catalog](figures/README.md), and the two-link results in the
+> [results catalog](../results/README.md).
+
 ## Abstract
 
 This study examines whether segment-length constraints and image fitting improve 3D

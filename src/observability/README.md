@@ -25,47 +25,32 @@ Run commands from an installed checkout with `python -m observability <command>`
 ## Decision pilot and wrist study
 
 The follow-on report, [What two cameras preserve about wrist motion](../../reports/few-camera-wrist/README.md),
-is produced by two packages. Both read recordings in place, keep every path, identifier
-and per-frame output under ignored `local/`, and export only split- and group-level
-aggregates. Inputs are optical motion-capture CSV exports with a fitted skeleton and
-labelled markers, the session calibration file, and two synchronised RGB videos per take.
+is produced by two subpackages, each with its own guide:
 
-**[pilot/](pilot/)** decides what the recordings can support. Its stages are library
-functions, run in this order; each writes the file named beside it under `local/pilot/`.
-
-| Stage | Function | Output |
+| Package | Guide | Role |
 |---|---|---|
-| Inventory and opaque identifiers | `bootstrap.bootstrap`, `manifest.build_manifest` | `optitrack-census.json`, `manifest-private.json`, `manifest-summary.json` |
-| Video and calibration joins | `validate_inputs.validate_inputs` | `input-validation-*.json` |
-| Alignment samples (discovery, then confirmation with discovery takes excluded) | `alignment.prepare_alignment_sample` | `alignment/`, `confirmation/` |
-| Stock detections | `detector.run_alignment_detector` | `*/yolo26n/manifest.json` |
-| Projection convention and frame offset | `score_alignment.score_alignment` | `*/score.json` |
-| Reference availability | `reference_audit.audit_references` | `reference-audit.json` |
-| Two-view wrist check | `triangulation.evaluate_triangulation` | `triangulation.json` |
-| Force timing and kinetics boundary | `force_audit.audit_force_sources` | `force-validation.json` |
-| Pseudo-label repeatability | `sam_audit.audit_sam_rows` | `sam-repeatability.json` |
-| Provenance, synthesis, gates | `provenance`, `synthesis`, `finalize` | `source-provenance.json`, `synthesis.json`, `state.json` |
+| [pilot/](pilot/) | [pilot/README.md](pilot/README.md) | Decides what the recordings can support: inventory and pairing, timing and projection checks on two non-overlapping samples, reference, force and pseudo-label audits, and evidence gates. Library stages, run in a documented order. |
+| [study/](study/) | [study/README.md](study/README.md) | Runs the held-out experiment: frozen design, observation, development-only fitting, held-out evaluation, release tables and report figures. One command per stage. |
+| [study/supplements/](study/supplements/) | [supplements/README.md](study/supplements/README.md) | The planned one-view proxy rule and the post hoc movement analysis. |
 
-**[study/](study/)** runs the held-out experiment from those files:
+Both read recordings in place and keep every path, identifier and per-frame output under
+ignored `local/`. Inputs are optical motion-capture CSV exports with a fitted skeleton and
+labelled markers, the session calibration file, and two synchronised RGB videos per take.
+The study commands, in order:
 
 ```sh
 python -m observability.study.design                    # freeze takes, windows and split
 python -m observability.study.observe --shards 8 --shard 0   # repeat for shards 0-7
 python -m observability.study.analyze                   # fit on development, apply to held-out groups
 python -m observability.study.supplements.proxy         # two-view supervision of a one-view rule
-python -m observability.study.report                    # release tables and risk curves
+python -m observability.study.report                    # release tables
 python -m observability.study.supplements.movement      # post hoc: error by true movement
 python -m observability.study.publication --font-dir /path/to/fonts   # report figures and tables
 ```
 
-`observe` needs the `inference` extra and OpenCV; the force audit also needs the `c3d`
-package. The design hashes every source file it schedules, and later stages refuse to run
-if a hash changes. `analyze` writes the fitted policy once and checks it on every later run,
-so cutoffs cannot drift after the held-out groups are scored. `supplements.movement` was
-added after the planned analysis: it reads the frozen cutoffs and fits nothing. The
-published figures were drawn with Source Sans 3; without `--font-dir` the default
-Matplotlib font is used and only typography changes. Reviewed outputs are copied from
-`local/study/release/` and `local/study/publication/` into `reports/`.
+Reviewed outputs are copied into `reports/`; the
+[table catalog](../../reports/few-camera-wrist/tables/README.md) and the
+[figure catalog](../../reports/figures/README.md) describe them.
 
 The completed diagnostic consumes three-joint chains and compares fixed-input refinement
 methods. The expansion's inference adapters produce image observations and native body
