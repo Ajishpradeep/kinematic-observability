@@ -1,0 +1,3 @@
+split,median_pixel_distance_to_projected_midpoint,p90_pixel_distance,median_pixel_change_error,p90_pixel_change_error,median_reference_pixel_change,wrists_separated_over_60px,closer_to_opposite_wrist_fraction,over_150px_from_both_wrists_fraction,pairs_with_flagged_view,flagged_median_error_mm,unflagged_pairs,unflagged_median_error_mm,share_of_errors_over_50mm_flagged
+development,22.51,59.01,7.64,38.05,6.86,608,0.1168,0.0187,134,68.46,1511,25.88,0.1756
+confirmation,21.21,77.17,8.65,45.78,3.75,838,0.1098,0.0272,197,111.28,1819,26.85,0.2095

@@ -1,0 +1,13 @@
+split,score,true_displacement_lower_mm,true_displacement_upper_mm,accepted,over_50mm,fraction_over_50mm
+development,ray_gap,0,10,334,18,0.0539
+development,ray_gap,10,50,389,74,0.1902
+development,ray_gap,50,,229,100,0.4367
+development,confidence,0,10,270,5,0.0185
+development,confidence,10,50,278,57,0.205
+development,confidence,50,,225,101,0.4489
+confirmation,ray_gap,0,10,417,18,0.0432
+confirmation,ray_gap,10,50,252,34,0.1349
+confirmation,ray_gap,50,,385,129,0.3351
+confirmation,confidence,0,10,401,36,0.0898
+confirmation,confidence,10,50,200,37,0.185
+confirmation,confidence,50,,355,116,0.3268

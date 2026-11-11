@@ -22,6 +22,51 @@ Run commands from an installed checkout with `python -m observability <command>`
 | [models.py](models.py) | `infer` | Run public pretrained models on one or more images, preserving native landmarks and model provenance. |
 | [__main__.py](__main__.py) | Entry point | Dispatch commands to the modules above. |
 
+## Decision pilot and wrist study
+
+The follow-on report, [What two cameras preserve about wrist motion](../../reports/few-camera-wrist/README.md),
+is produced by two packages. Both read recordings in place, keep every path, identifier
+and per-frame output under ignored `local/`, and export only split- and group-level
+aggregates. Inputs are optical motion-capture CSV exports with a fitted skeleton and
+labelled markers, the session calibration file, and two synchronised RGB videos per take.
+
+**[pilot/](pilot/)** decides what the recordings can support. Its stages are library
+functions, run in this order; each writes the file named beside it under `local/pilot/`.
+
+| Stage | Function | Output |
+|---|---|---|
+| Inventory and opaque identifiers | `bootstrap.bootstrap`, `manifest.build_manifest` | `optitrack-census.json`, `manifest-private.json`, `manifest-summary.json` |
+| Video and calibration joins | `validate_inputs.validate_inputs` | `input-validation-*.json` |
+| Alignment samples (discovery, then confirmation with discovery takes excluded) | `alignment.prepare_alignment_sample` | `alignment/`, `confirmation/` |
+| Stock detections | `detector.run_alignment_detector` | `*/yolo26n/manifest.json` |
+| Projection convention and frame offset | `score_alignment.score_alignment` | `*/score.json` |
+| Reference availability | `reference_audit.audit_references` | `reference-audit.json` |
+| Two-view wrist check | `triangulation.evaluate_triangulation` | `triangulation.json` |
+| Force timing and kinetics boundary | `force_audit.audit_force_sources` | `force-validation.json` |
+| Pseudo-label repeatability | `sam_audit.audit_sam_rows` | `sam-repeatability.json` |
+| Provenance, synthesis, gates | `provenance`, `synthesis`, `finalize` | `source-provenance.json`, `synthesis.json`, `state.json` |
+
+**[study/](study/)** runs the held-out experiment from those files:
+
+```sh
+python -m observability.study.design                    # freeze takes, windows and split
+python -m observability.study.observe --shards 8 --shard 0   # repeat for shards 0-7
+python -m observability.study.analyze                   # fit on development, apply to held-out groups
+python -m observability.study.supplements.proxy         # two-view supervision of a one-view rule
+python -m observability.study.report                    # release tables and risk curves
+python -m observability.study.supplements.movement      # post hoc: error by true movement
+python -m observability.study.publication --font-dir /path/to/fonts   # report figures and tables
+```
+
+`observe` needs the `inference` extra and OpenCV; the force audit also needs the `c3d`
+package. The design hashes every source file it schedules, and later stages refuse to run
+if a hash changes. `analyze` writes the fitted policy once and checks it on every later run,
+so cutoffs cannot drift after the held-out groups are scored. `supplements.movement` was
+added after the planned analysis: it reads the frozen cutoffs and fits nothing. The
+published figures were drawn with Source Sans 3; without `--font-dir` the default
+Matplotlib font is used and only typography changes. Reviewed outputs are copied from
+`local/study/release/` and `local/study/publication/` into `reports/`.
+
 The completed diagnostic consumes three-joint chains and compares fixed-input refinement
 methods. The expansion's inference adapters produce image observations and native body
 estimates. These are distinct stages: inference output must be matched to a declared

@@ -1,0 +1,7 @@
+split,method,pairs,median_shared_offset_mm,median_offset_change_mm,share_of_squared_position_error_common_to_endpoints,spearman_position_vs_displacement_error,median_error_single_detection_mm,median_error_multiple_detections_mm
+development,view_a,1645,420.89,26.46,0.9939,0.082,26.17,26.46
+development,view_b,1645,385.31,29.1,0.9873,-0.048,23.96,30.18
+development,two_view,1645,69.47,27.13,0.906,0.554,24.57,27.69
+confirmation,view_a,2016,318.88,29.04,0.9836,0.276,37.11,27.36
+confirmation,view_b,2016,384.45,33.52,0.9591,-0.013,37.86,32.63
+confirmation,two_view,2016,72.2,29.56,0.9265,0.495,33.79,28.22

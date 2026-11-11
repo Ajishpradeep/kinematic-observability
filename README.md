@@ -14,7 +14,7 @@ therefore need to be evaluated separately from reconstruction accuracy.
 | Synthetic: 1,536 chains, mean across three seeds | 101.5 | 53.1 | 43.5 |
 | Real: 5,414 chains, mean across three participants | 78.3 | 76.2 | 80.3 |
 
-The real-data reference is a Motive fitted skeleton; calibration, reference pelvis translation
+The real-data reference is a fitted skeleton from optical motion capture; calibration, reference pelvis translation
 and reference-derived lengths are privileged inputs. This is an exploratory refinement audit,
 with no clinical validation or end-to-end pose-estimator comparison.
 
@@ -26,29 +26,23 @@ implementation and aggregate evidence accompanying the note. The
 [research report](reports/README.md) brings together methods, results, limitations and
 reproduction details; [CITATION.cff](CITATION.cff) supplies the article and software citation.
 
-## Ongoing research
+## Follow-on study
 
-An expansion of this work is in development on the separate `research/observability`
-branch. The present `main` documents the completed two-link diagnostic. The next phase
-is investigating which additional measurements resolve ambiguity and how to recognize
-estimates that remain weakly determined.
+[What two cameras preserve about wrist motion](reports/few-camera-wrist/README.md)
+([PDF](reports/few-camera-wrist/what-two-cameras-preserve-about-wrist-motion.pdf)) asks what
+happens when the outcome is movement rather than position. Across 181 held-out laboratory
+recordings, a second calibrated camera reduced median wrist position error from 324–388 mm
+to 73.2 mm, while median error in 25–50 ms displacement stayed near 30 mm. The median true
+displacement was only 13.9 mm, so a rule that always reported no movement scored better on
+that statistic than any camera. Stratified by real movement, two views clearly helped, and
+acceptance rules that looked adequate overall failed on about a third of wrists that moved
+at least 50 mm. Changing the definition of the wrist changed which estimates failed.
 
-The expansion includes inference adapters for **stock YOLO26 pose** (2D observations)
-and **Fast SAM 3D Body** (image-based 3D estimation). They provide observations for the
-research questions below; no new model-accuracy results are claimed. Their inputs,
-outputs and current validation status are documented [with the code](src/observability/README.md).
-
-The directions under consideration are:
-
-- Separate detector localization error from anatomical landmark correspondence using
-  independently constructed reference landmarks.
-- Measure sensitivity to camera calibration, root position and body geometry, then test
-  what a second view or temporal evidence adds under matched inputs.
-- Evaluate observability and uncertainty diagnostics against participant-level 3D failures,
-  with confirmation on new OptiTrack participants.
-
-These are research directions, not additional experimental findings. Research-branch
-updates, implementations and evaluated results will be published as the work progresses.
+The one-view comparisons are fixed-depth geometry controls. The report covers the pilot,
+methods, limitations and a proposed next experiment. Recordings are confidential; the
+[aggregate tables](reports/few-camera-wrist/tables/) behind every figure are included,
+together with the [code and commands](src/observability/README.md#decision-pilot-and-wrist-study)
+that produce them from comparable recordings.
 
 ## Reproduce
 
@@ -73,7 +67,7 @@ local-data inputs and the recorded source archive. Each command supports `--help
 |---|---|
 | [src/observability/](src/observability/README.md) | Implementation, model adapters and command reference |
 | [tests/](tests/) | Geometry invariants and command/workflow checks |
-| [reports/](reports/) | One research report and its figures |
+| [reports/](reports/) | Baseline and follow-on research reports, figures and tables |
 | [results/](results/) | Aggregate CSVs, execution manifests, complete generated tables and historical source archive |
 
 For development, install `python -m pip install -e '.[dev]'`, then run
