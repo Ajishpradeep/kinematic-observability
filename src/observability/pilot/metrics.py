@@ -2,6 +2,8 @@
 
 import numpy as np
 
+_trapezoid = getattr(np, "trapezoid", None) or np.trapz
+
 
 def _paired(reference, estimate):
     reference = np.asarray(reference, dtype=float).reshape(-1)
@@ -52,7 +54,7 @@ def risk_coverage(error, uncertainty):
     return {
         "coverage": coverage,
         "risk": risk,
-        "aurc": float(np.trapz(risk, coverage)) if len(risk) > 1 else float(risk[0]),
+        "aurc": float(_trapezoid(risk, coverage)) if len(risk) > 1 else float(risk[0]),
     }
 
 
