@@ -1,19 +1,35 @@
 cff-version: 1.2.0
-message: "Please cite the companion article for the study and the software version used for reproducibility."
+message: "Please cite the report for the study you use and the software version used for reproducibility."
 title: "Kinematic observability under imperfect constraints"
 type: software
 authors:
   - family-names: Pradeep
     given-names: Ajish
 repository-code: "https://github.com/Ajishpradeep/kinematic-observability"
-url: "https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/"
+url: "https://github.com/Ajishpradeep/kinematic-observability"
 license: MIT
-version: 0.2.0
+version: 2.0.0
+date-released: 2026-11-13
 preferred-citation:
-  type: article
-  title: "A valid reconstruction can still be the wrong one"
+  type: report
+  title: "What two cameras preserve about wrist motion: position, short displacement and the definition of the target in few-camera kinematics"
   authors:
     - family-names: Pradeep
       given-names: Ajish
-  date-published: 2026-10-28
-  url: "https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/"
+  date-published: 2026-11-13
+  url: "https://github.com/Ajishpradeep/kinematic-observability/blob/v2.0.0/reports/few-camera-wrist/README.md"
+references:
+  - type: article
+    title: "A valid reconstruction can still be the wrong one"
+    authors:
+      - family-names: Pradeep
+        given-names: Ajish
+    date-published: 2026-10-28
+    url: "https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/"
+  - type: article
+    title: "From position error to motion error"
+    authors:
+      - family-names: Pradeep
+        given-names: Ajish
+    date-published: 2026-11-11
+    url: "https://ajishpradeep.com/blog/from-position-error-to-motion-error/"

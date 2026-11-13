@@ -12,6 +12,17 @@ depends on what "the wrist" is taken to be.
 | Two-link reconstruction: constraints, image fit and 3D accuracy | [reports/README.md](reports/README.md) | [A valid reconstruction can still be the wrong one](https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/) | [src/observability/](src/observability/README.md) |
 | Wrist study: position, short displacement and the definition of the target | [reports/few-camera-wrist/](reports/few-camera-wrist/README.md) ([PDF](reports/few-camera-wrist/what-two-cameras-preserve-about-wrist-motion.pdf)) | [From position error to motion error](https://ajishpradeep.com/blog/from-position-error-to-motion-error/) | [pilot/](src/observability/pilot/README.md), [study/](src/observability/study/README.md) |
 
+## Versions
+
+Each study is preserved as a release, so it can be cited or shared as it was published.
+
+| Version | Contents | Snapshot |
+|---|---|---|
+| [v1.0.0](https://github.com/Ajishpradeep/kinematic-observability/releases/tag/v1.0.0) | Study 1, the two-link reconstruction study | [browse](https://github.com/Ajishpradeep/kinematic-observability/tree/v1.0.0) |
+| [v2.0.0](https://github.com/Ajishpradeep/kinematic-observability/releases/tag/v2.0.0) | Study 1 and Study 2, the wrist study, with its pilot, code and report | [browse](https://github.com/Ajishpradeep/kinematic-observability/tree/v2.0.0) |
+
+`main` always holds the latest version.
+
 ## Study 1: a valid reconstruction can still be the wrong one
 
 A shoulder–elbow–wrist chain seen by one camera can keep its segment lengths exactly, fit
@@ -135,6 +146,6 @@ the first study's predictor weights stay confidential; only aggregate results ar
 released, with capture groups labelled generically. The wrist study uses only the stock
 public YOLO26n-pose checkpoint.
 
-MIT licensed. [CITATION.cff](CITATION.cff) gives the citation for the first study and its
-software. Contributions must use distributable code and data and exclude participant
+MIT licensed. [CITATION.cff](CITATION.cff) gives the citation for the wrist study, the two
+research notes and the software version. Contributions must use distributable code and data and exclude participant
 recordings, trajectories, weights, identifying information and credentials.
