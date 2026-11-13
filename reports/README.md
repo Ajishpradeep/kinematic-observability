@@ -83,7 +83,7 @@ confidence weighting, proximal observation dropout, a confidently wrong distal o
 and bend bounds. Methods share the same draws.
 
 **Retrospective real-data audit.** Cached monocular upper-limb sports predictions are
-compared with a synchronized OptiTrack Motive fitted skeleton. Four development participants
+compared with a synchronized fitted skeleton from optical motion capture. Four development participants
 supply generic lengths; three participants excluded from predictor training supply the
 evaluation observations. Both arms and two camera views contribute repeated chains.
 Every fifth cached row is sampled, approximately 6 Hz from a 30 Hz cache. Eligible swing
@@ -166,7 +166,16 @@ interpreting refinement. A chain can be structurally consistent and agree closel
 pixels while retaining substantial reference error. Remaining depth error alone cannot
 identify whether localization, landmark definition, calibration or geometry caused it.
 
-The reference is a Motive fitted skeleton rather than direct bone motion. The cohort is
+The follow-on study,
+[What two cameras preserve about wrist motion](few-camera-wrist/README.md), takes up that
+question with a second calibrated camera and marker-defined wrist references on 181 held-out
+recordings. A second view cut median wrist position error from 324–388 mm to 73.2 mm, yet
+short displacement error stayed near 30 mm because frame-to-frame detector error, not the
+shared offset, dominated it. Holding estimates and decisions fixed, changing only the
+definition of the wrist moved an acceptance rule across its failure target. Landmark
+definition is part of the error budget there as well as here.
+
+The reference is a fitted skeleton from optical motion capture rather than direct bone motion. The cohort is
 small, sports-specific and previously inspected; reference lengths, calibration and root
 translation simplify the inference problem. These findings do not establish population,
 fairness, gait, home-monitoring, clinical or on-device validity. No external estimator is
@@ -224,7 +233,7 @@ is reserved for aggregate output. The adapter additionally retains opaque `captu
 Projection clamps depth to 0.05 m for numerical stability; this is not a physical near-camera model.
 
 The `prepare` adapter expects the historical `report/frames.npz` and per-capture caches,
-rather than arbitrary Motive exports. That historical report cache contains an object
+rather than arbitrary motion-capture exports. That historical report cache contains an object
 column and requires pickle loading; use only trusted inputs. The adapter verifies frame,
 projection and pelvis/camera conventions, filters eligible rows, and records hashes and
 counts. Its local manifest contains source paths but no identity map. Output must be under
@@ -270,8 +279,10 @@ experiment; recorded measurements have not been modified or relabelled.
 Pradeep, Ajish. (2026, October 28).
 [A valid reconstruction can still be the wrong one](https://ajishpradeep.com/blog/a-valid-reconstruction-can-still-be-the-wrong-one/).
 Personal technical article accompanying this study. It is the author's interpretation,
-not an independent validation. [CITATION.cff](../CITATION.cff) provides machine-readable
-article and software metadata. For a reproduction, also record the software version,
+not an independent validation. The follow-on is cited as Pradeep, Ajish. (2026, November).
+[What two cameras preserve about wrist motion](few-camera-wrist/README.md), with the
+note [From position error to motion error](https://ajishpradeep.com/blog/from-position-error-to-motion-error/).
+[CITATION.cff](../CITATION.cff) provides machine-readable metadata for both studies. For a reproduction, also record the software version,
 exact commit and execution manifest.
 
 <details>
