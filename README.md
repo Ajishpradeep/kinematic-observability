@@ -63,7 +63,7 @@ development and four, 181 recordings, held out for confirmation.
 
 The one-view conditions are geometric controls, not a trained monocular estimator, and the
 cameras are one fixed pair in one laboratory. The report covers the pilot, methods,
-limitations and a proposed next experiment.
+limitations and the open questions it leaves.
 
 ## Reproduce
 

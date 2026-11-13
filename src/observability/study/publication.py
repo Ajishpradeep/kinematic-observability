@@ -184,8 +184,8 @@ class Figures:
             (
                 0,
                 6,
-                "Next experiment",
-                "one named outcome, verified participants, a known change",
+                "Open questions",
+                "a known change, a reference with known uncertainty, one named outcome",
                 INK,
             ),
         )

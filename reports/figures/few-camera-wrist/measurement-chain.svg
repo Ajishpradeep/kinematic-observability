@@ -1997,69 +1997,90 @@ z
     </g>
    </g>
    <g id="text_13">
-    <!-- Next experiment -->
+    <!-- Open questions -->
     <g style="fill: #1f1f1d" transform="translate(8.4042 132.998268) scale(0.084 -0.084)">
      <defs>
-      <path id="SourceSans3ExtraLight-Bold-4e" d="M 493 0 
-L 493 4173 
-L 1478 4173 
-L 2547 2118 
-Q 2662 1907 2761 1667 
-Q 2861 1427 2957 1178 
-L 2982 1178 
-Q 2950 1517 2905 1920 
-Q 2861 2323 2861 2694 
-L 2861 4173 
-L 3763 4173 
-L 3763 0 
-L 2778 0 
-L 1709 2054 
-Q 1600 2266 1494 2509 
-Q 1389 2752 1293 2995 
-L 1267 2995 
-Q 1306 2650 1350 2250 
-Q 1395 1850 1395 1478 
-L 1395 0 
-L 493 0 
+      <path id="SourceSans3ExtraLight-Bold-4f" d="M 2189 -77 
+Q 1626 -77 1200 185 
+Q 774 448 534 934 
+Q 294 1421 294 2106 
+Q 294 2784 534 3264 
+Q 774 3744 1200 3997 
+Q 1626 4250 2189 4250 
+Q 2752 4250 3181 3997 
+Q 3610 3744 3846 3264 
+Q 4083 2784 4083 2106 
+Q 4083 1421 3846 934 
+Q 3610 448 3181 185 
+Q 2752 -77 2189 -77 
+z
+M 2189 736 
+Q 2477 736 2685 905 
+Q 2893 1075 3005 1382 
+Q 3117 1690 3117 2106 
+Q 3117 2522 3005 2819 
+Q 2893 3117 2685 3273 
+Q 2477 3430 2189 3430 
+Q 1907 3430 1696 3273 
+Q 1485 3117 1373 2819 
+Q 1261 2522 1261 2106 
+Q 1261 1690 1373 1382 
+Q 1485 1075 1696 905 
+Q 1907 736 2189 736 
+z
+" transform="scale(0.015625)"/>
+      <path id="SourceSans3ExtraLight-Bold-71" d="M 2310 -1178 
+L 2310 -211 
+L 2349 275 
+Q 2195 122 1980 22 
+Q 1766 -77 1549 -77 
+Q 960 -77 605 368 
+Q 250 813 250 1587 
+Q 250 2106 438 2477 
+Q 627 2848 931 3049 
+Q 1235 3251 1568 3251 
+Q 1830 3251 2028 3158 
+Q 2227 3066 2413 2861 
+L 2438 2861 
+L 2515 3174 
+L 3251 3174 
+L 3251 -1178 
+L 2310 -1178 
+z
+M 1792 691 
+Q 1946 691 2074 755 
+Q 2202 819 2310 979 
+L 2310 2278 
+Q 2189 2394 2054 2438 
+Q 1920 2483 1786 2483 
+Q 1632 2483 1504 2387 
+Q 1376 2291 1296 2096 
+Q 1216 1901 1216 1600 
+Q 1216 1133 1369 912 
+Q 1523 691 1792 691 
 z
 " transform="scale(0.015625)"/>
      </defs>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-4e"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-65" x="66.499985"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-78" x="118.299973"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-74" x="169.699966"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-20" x="207.999954"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-65" x="227.999939"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-78" x="279.799927"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-70" x="331.199921"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-65" x="388.499908"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-72" x="440.299896"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-69" x="480.099884"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-6d" x="507.699875"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-65" x="593.399857"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-6e" x="645.199844"/>
-     <use xlink:href="#SourceSans3ExtraLight-Bold-74" x="702.399841"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-4f"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-70" x="68.399994"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-65" x="125.699982"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-6e" x="177.499969"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-20" x="234.699966"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-71" x="254.699951"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-75" x="311.999939"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-65" x="368.799927"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-73" x="420.599915"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-74" x="464.899902"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-69" x="503.19989"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-6f" x="530.799881"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-6e" x="586.299866"/>
+     <use xlink:href="#SourceSans3ExtraLight-Bold-73" x="643.499863"/>
     </g>
    </g>
    <g id="text_14">
-    <!-- one named outcome, verified participants, a known change -->
-    <g style="fill: #52514e" transform="translate(75.5046 132.862643) scale(0.082 -0.082)">
+    <!-- a known change, a reference with known uncertainty, one named outcome -->
+    <g style="fill: #52514e" transform="translate(71.0946 132.862643) scale(0.082 -0.082)">
      <defs>
-      <path id="SourceSans3ExtraLight-Regular-76" d="M 1197 0 
-L 77 3110 
-L 621 3110 
-L 1210 1344 
-Q 1280 1120 1353 886 
-Q 1427 653 1498 429 
-L 1523 429 
-Q 1587 653 1664 886 
-Q 1741 1120 1805 1344 
-L 2394 3110 
-L 2912 3110 
-L 1811 0 
-L 1197 0 
-z
-" transform="scale(0.015625)"/>
       <path id="SourceSans3ExtraLight-Regular-6b" d="M 525 0 
 L 525 4557 
 L 1050 4557 
@@ -2076,63 +2097,101 @@ L 1050 0
 L 525 0 
 z
 " transform="scale(0.015625)"/>
+      <path id="SourceSans3ExtraLight-Regular-79" d="M 576 -1338 
+Q 474 -1338 381 -1318 
+Q 288 -1299 211 -1274 
+L 326 -864 
+Q 384 -883 441 -892 
+Q 499 -902 550 -902 
+Q 819 -902 988 -713 
+Q 1158 -525 1254 -237 
+L 1325 -6 
+L 77 3110 
+L 621 3110 
+L 1254 1389 
+Q 1331 1190 1408 960 
+Q 1485 730 1555 512 
+L 1581 512 
+Q 1651 730 1718 957 
+Q 1786 1184 1843 1389 
+L 2400 3110 
+L 2912 3110 
+L 1741 -256 
+Q 1632 -563 1478 -809 
+Q 1325 -1056 1107 -1197 
+Q 890 -1338 576 -1338 
+z
+" transform="scale(0.015625)"/>
      </defs>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6f"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="54.199997"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="108.899994"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="158.499985"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="178.499969"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-61" x="233.199966"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6d" x="283.59996"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="366.499954"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-64" x="416.099945"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="471.59993"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6f" x="491.599915"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-75" x="545.799911"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-74" x="600.199905"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-63" x="633.999893"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6f" x="679.599884"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6d" x="733.799881"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="816.699875"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-2c" x="866.299866"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="891.19986"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-76" x="911.199844"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="957.899841"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-72" x="1007.499832"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-69" x="1042.199829"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-66" x="1066.79982"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-69" x="1095.999817"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="1120.599808"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-64" x="1170.199799"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="1225.699783"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-70" x="1245.699768"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-61" x="1301.199753"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-72" x="1351.599747"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-74" x="1386.299744"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-69" x="1420.099731"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-63" x="1444.699722"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-69" x="1490.299713"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-70" x="1514.899704"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-61" x="1570.399689"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="1620.799683"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-74" x="1675.49968"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-73" x="1709.299667"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-2c" x="1751.199661"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="1776.099655"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-61" x="1796.09964"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="1846.499634"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6b" x="1866.499619"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="1915.999603"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6f" x="1970.6996"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-77" x="2024.899597"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="2096.799591"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="2151.499588"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-63" x="2171.499573"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-68" x="2217.099564"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-61" x="2271.499557"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="2321.899551"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-67" x="2376.599548"/>
-     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="2426.999542"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-61"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="50.399994"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6b" x="70.399979"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="119.899963"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6f" x="174.59996"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-77" x="228.799957"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="300.699951"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="355.399948"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-63" x="375.399933"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-68" x="420.999924"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-61" x="475.399918"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="525.799911"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-67" x="580.499908"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="630.899902"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-2c" x="680.499893"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="705.399887"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-61" x="725.399872"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="775.799866"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-72" x="795.79985"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="830.499847"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-66" x="880.099838"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="909.299835"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-72" x="958.899826"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="993.599823"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="1043.199814"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-63" x="1097.899811"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="1143.499802"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="1193.099792"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-77" x="1213.099777"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-69" x="1284.999771"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-74" x="1309.599762"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-68" x="1343.39975"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="1397.799744"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6b" x="1417.799728"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="1467.299713"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6f" x="1521.99971"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-77" x="1576.199707"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="1648.099701"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="1702.799698"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-75" x="1722.799683"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="1777.199677"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-63" x="1831.899673"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="1877.499664"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-72" x="1927.099655"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-74" x="1961.799652"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-61" x="1995.59964"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-69" x="2045.999634"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="2070.599625"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-74" x="2125.299622"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-79" x="2159.099609"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-2c" x="2205.799606"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="2230.6996"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6f" x="2250.699585"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="2304.899582"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="2359.599579"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="2409.19957"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6e" x="2429.199554"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-61" x="2483.899551"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6d" x="2534.299545"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="2617.199539"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-64" x="2666.79953"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-20" x="2722.299515"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6f" x="2742.2995"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-75" x="2796.499496"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-74" x="2850.89949"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-63" x="2884.699478"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6f" x="2930.299469"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-6d" x="2984.499466"/>
+     <use xlink:href="#SourceSans3ExtraLight-Regular-65" x="3067.39946"/>
     </g>
    </g>
   </g>

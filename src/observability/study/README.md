@@ -98,7 +98,7 @@ holds and where the report uses it. The release folder also holds draft PNG figu
 Markdown summaries that were not published. The report's PDF was rendered from its Markdown
 with WeasyPrint; that renderer is not part of this package.
 
-Figures were drawn with Source Sans 3 passed through `--font-dir`. Without it, Matplotlib's
+Figures were drawn with Source Sans 3, passed as `--font-dir` pointing to a folder that holds only its `.ttf` files (the last font file read sets the family). Without it, Matplotlib's
 default font is used and only the typography changes.
 
 ## Tests
